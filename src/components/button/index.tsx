@@ -1,0 +1,24 @@
+import React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+
+const buttonVariants = cva("bg-white", {
+  variants: {
+    variant: {
+      default: "bg-red-500",
+      primary: "bg-blue-500",
+      secondary: "bg-green-500",
+    },
+    size: {
+      default: "p-4",
+      small: "p-2",
+      large: "p-6",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "default",
+  },
+});
+
+export { buttonVariants };
