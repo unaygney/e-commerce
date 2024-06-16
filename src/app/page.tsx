@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/badge";
+import { Input } from "@/components/input";
 
 export default function Home() {
   return (
@@ -19,6 +20,10 @@ export default function Home() {
         <Badge variant="warning" size="small">
           Default
         </Badge>
+      </div>
+
+      <div className="w-full min-w-[500px]">
+        <Input type="text" placeholder="name@email.com" disabled />
       </div>
     </main>
   );
