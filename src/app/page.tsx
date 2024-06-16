@@ -22,8 +22,8 @@ export default function Home() {
         </Badge>
       </div>
 
-      <div className="w-full min-w-[500px]">
-        <Input type="text" placeholder="name@email.com" disabled />
+      <div className="w-full max-w-[300px]">
+        <Input type="text" placeholder="name@email.com" />
       </div>
     </main>
   );
