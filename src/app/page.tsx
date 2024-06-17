@@ -2,6 +2,8 @@
 
 import { Badge } from "@/components/badge";
 import { Input } from "@/components/input";
+import { Label } from "@/components/label";
+import { CircleHelp } from "lucide-react";
 
 export default function Home() {
   return (
@@ -23,7 +25,10 @@ export default function Home() {
       </div>
 
       <div className="w-full max-w-[300px]">
-        <Input type="text" placeholder="name@email.com" />
+        <div>
+          <Label htmlFor="name">Label</Label>
+          <Input type="text" id="name" placeholder="name@email.com" />
+        </div>
       </div>
     </main>
   );
