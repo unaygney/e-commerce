@@ -28,11 +28,14 @@ export default function Home() {
           <Textarea
             value={message}
             placeholder="Write your message..."
-            className="h-[103px]"
+            className="h-[103px] border-red-600"
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               setMessage(e.target.value)
             }
           />
+          <p className="text-sm font-normal leading-5 text-red-600">
+            This field is required
+          </p>
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="name">Description</Label>
