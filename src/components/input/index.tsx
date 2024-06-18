@@ -5,10 +5,11 @@ import React from "react";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;
+  error?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, icon, type, ...props }, ref) => {
+  ({ className, icon, type, error, ...props }, ref) => {
     return (
       <div className="relative flex">
         <input
@@ -29,7 +30,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <CircleHelp
           width={16}
           height={16}
-          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500"
+          className={cn(
+            "absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500",
+            error && "text-red-500",
+          )}
         />
       </div>
     );
