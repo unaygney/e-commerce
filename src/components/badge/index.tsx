@@ -38,4 +38,6 @@ function Badge({ className, variant, size, ...props }: BadgeProps) {
   );
 }
 
+Badge.displayName = "Badge";
+
 export { Badge };
