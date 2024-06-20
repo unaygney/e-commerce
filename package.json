@@ -11,6 +11,10 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@headlessui/react": "^2.0.4",
+    "@mui/material": "^5.15.20",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.395.0",
