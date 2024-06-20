@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/db";
-import React from "react";
+import React, { Suspense } from "react";
 import Product from "@/lib/models";
 import { IProduct } from "@/lib/definitions";
 import ProductDetail from "@/components/product-detail";
@@ -17,7 +17,9 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen w-full bg-gray-300 p-4">
-      <ProductDetail product={formattedProduct} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProductDetail product={formattedProduct} />
+      </Suspense>
     </main>
   );
 }
