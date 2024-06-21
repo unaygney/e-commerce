@@ -2,14 +2,20 @@
 import { IProduct } from "@/lib/definitions";
 import Image from "next/image";
 import React from "react";
-import { Radio, Rating } from "@mui/material";
+import { Rating } from "@mui/material";
 import { Badge } from "../badge";
 import { Button } from "../button";
-import { StarIcon, CheckIcon } from "lucide-react";
+import { StarIcon, CheckIcon, CirclePlus, MinusCircle } from "lucide-react";
 import { RadioGroup } from "@headlessui/react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function ProductDetail({ product }: { product: IProduct[] }) {
   let { name } = product[0];
@@ -22,25 +28,31 @@ export default function ProductDetail({ product }: { product: IProduct[] }) {
 }
 
 function ProductThumbnail() {
+  const [selectedImage, setSelectedImage] = React.useState("/image.png");
+
+  const thumbnails = [
+    { src: "/image.png", alt: "image thumbnail" },
+    { src: "/image-1.png", alt: "image thumbnail 1" },
+    { src: "/image-2.png", alt: "image thumbnail 2" },
+    { src: "/image-3.png", alt: "image thumbnail 3" },
+  ];
+
   return (
     <div className="flex w-full flex-1 flex-col gap-6 lg:min-w-[48%]">
       <div className="flex flex-col gap-6">
         <div className="relative h-[400px] w-full overflow-hidden rounded-lg md:h-[800px]">
-          <Image src={"/image.png"} alt="image thumbnail" fill />
+          <Image src={selectedImage} alt="selected image" fill />
         </div>
         <div className="no-scrollbar flex h-[120px] gap-4 overflow-scroll md:h-[190px]">
-          <div className="relative h-full w-full min-w-[80px] flex-1 overflow-hidden rounded-lg md:min-w-[188px] lg:min-w-[160px]">
-            <Image src={"/image-1.png"} alt="image thumbnail" fill />
-          </div>
-          <div className="relative h-full min-w-[80px] flex-1 overflow-hidden rounded-lg md:min-w-[188px] lg:min-w-[160px]">
-            <Image src={"/image-2.png"} alt="image thumbnail" fill />
-          </div>
-          <div className="relative h-full min-w-[80px] flex-1 overflow-hidden rounded-lg md:min-w-[188px] lg:min-w-[160px]">
-            <Image src={"/image-3.png"} alt="image thumbnail" fill />
-          </div>
-          <div className="relative h-full min-w-[80px] flex-1 overflow-hidden rounded-lg md:min-w-[188px] lg:min-w-[160px]">
-            <Image src={"/image-3.png"} alt="image thumbnail" fill />
-          </div>
+          {thumbnails.map((thumbnail, index) => (
+            <div
+              key={index}
+              className="relative h-full w-full min-w-[80px] flex-1 cursor-pointer overflow-hidden rounded-lg md:min-w-[188px] lg:min-w-[160px]"
+              onClick={() => setSelectedImage(thumbnail.src)}
+            >
+              <Image src={thumbnail.src} alt={thumbnail.alt} fill />
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -138,6 +150,7 @@ function ProductDetailInfo() {
         roomy pockets are perfect for those who are always searching for the
         next adventure.
       </p>
+      {/* Product buttons */}
       <div className="mb-8 flex flex-col">
         <div>
           <h6 className="mb-2 text-sm font-normal leading-5 text-neutral-500">
@@ -179,7 +192,7 @@ function ProductDetailInfo() {
             Available Sizes
           </h6>
           <RadioGroup value={sizes} onChange={handleSize} className="">
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               {SIZES.map((size) => (
                 <RadioGroup.Option
                   key={size.value}
@@ -201,9 +214,70 @@ function ProductDetailInfo() {
           </RadioGroup>
         </div>
       </div>
+      {/* Price Button */}
+      <div>price buttons</div>
       <Button variant="primary" size="large">
         Add to Cart
       </Button>
+      {/* Accordion Section */}
+      <Accordion type="multiple" className="mt-6 marker:text-neutral-600">
+        <AccordionItem value="item-1">
+          <AccordionTrigger className="text-lg font-medium leading-7 text-neutral-900">
+            Features
+          </AccordionTrigger>
+          <AccordionContent>
+            <ul className="list-inside list-disc">
+              <li className="text-base font-normal leading-6 text-neutral-600">
+                Designed for comfort and durability
+              </li>
+              <li className="text-base font-normal leading-6 text-neutral-600">
+                Designed for comfort and durability
+              </li>
+              <li className="text-base font-normal leading-6 text-neutral-600">
+                Designed for comfort and durability
+              </li>
+              <li className="text-base font-normal leading-6 text-neutral-600">
+                Designed for comfort and durability
+              </li>
+              <li className="text-base font-normal leading-6 text-neutral-600">
+                Designed for comfort and durability
+              </li>
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
+          <AccordionTrigger className="text-lg font-medium leading-7 text-neutral-900">
+            Fabric & Care
+          </AccordionTrigger>
+          <AccordionContent>
+            <ul className="list-inside list-disc">
+              <li className="text-base font-normal leading-6 text-neutral-600">
+                Designed for comfort and durability
+              </li>
+              <li className="text-base font-normal leading-6 text-neutral-600">
+                Designed for comfort and durability
+              </li>
+              <li className="text-base font-normal leading-6 text-neutral-600">
+                Designed for comfort and durability
+              </li>
+              <li className="text-base font-normal leading-6 text-neutral-600">
+                Designed for comfort and durability
+              </li>
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-3">
+          <AccordionTrigger className="text-lg font-medium leading-7 text-neutral-900">
+            Shipping
+          </AccordionTrigger>
+          <AccordionContent>
+            <ul className="list-inside list-disc">
+              <li>Designed for comfort and durability</li>
+              <li>Designed for comfort and durability</li>
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 }
