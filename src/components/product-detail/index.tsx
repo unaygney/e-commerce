@@ -5,7 +5,7 @@ import React from "react";
 import { Rating } from "@mui/material";
 import { Badge } from "../badge";
 import { Button } from "../button";
-import { StarIcon, CheckIcon, CirclePlus, MinusCircle } from "lucide-react";
+import { StarIcon, CheckIcon } from "lucide-react";
 import { RadioGroup } from "@headlessui/react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -17,18 +17,23 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-export default function ProductDetail({ product }: { product: IProduct[] }) {
-  let { name } = product[0];
+export default function ProductDetail({ product }: any) {
   return (
     <section className="container mx-auto flex flex-col gap-12 rounded-md bg-white px-4 py-12 shadow-sm lg:flex-row lg:gap-8 lg:p-24">
-      <ProductThumbnail />
-      <ProductDetailInfo />
+      <ProductThumbnail product={product} />
+      <ProductDetailInfo product={product} />
     </section>
   );
 }
 
-function ProductThumbnail() {
+function ProductThumbnail({ product }: any) {
   const [selectedImage, setSelectedImage] = React.useState("/image.png");
+  const { images } = product;
+  const searchParams = useSearchParams();
+  const color = searchParams.get("color") ?? "green";
+
+  const filteredImages = images.filter((image: any) => image?.color === color);
+  console.log(filteredImages);
 
   const thumbnails = [
     { src: "/image.png", alt: "image thumbnail" },
@@ -59,12 +64,14 @@ function ProductThumbnail() {
   );
 }
 
-function ProductDetailInfo() {
+function ProductDetailInfo({ product }: any) {
+  const { name, description, reviews, rating, info, inventory } = product;
+
   const router = useRouter();
   const searchParams = useSearchParams();
   let plans: Plans[] = [
     { color: "#10B981", label: "Green", value: "green" },
-    { color: "#CA8A04", label: "Orange", value: "orange" },
+    { color: "#CA8A04", label: "Brown", value: "Brown" },
   ];
 
   let SIZES: SIZES[] = [
@@ -97,7 +104,7 @@ function ProductDetailInfo() {
     let paramName = plans.find((plan) => plan.color === color)?.value ?? "";
     const params = new URLSearchParams(searchParams);
     params.set("color", paramName);
-    router.replace(`/?${params.toString()}`);
+    router.replace(`/?${params.toString().toLowerCase()}`);
   };
 
   const handleSize = (selectedSize: string) => {
@@ -113,42 +120,51 @@ function ProductDetailInfo() {
     <div className="flex w-full flex-1 flex-col lg:min-w-[48%]">
       <div className="flex flex-col">
         <h1 className="text-3xl font-semibold leading-9 text-neutral-900 md:text-5xl md:leading-[48px]">
-          Voyager Hoodie
+          {name}
         </h1>
         <div className="mt-5 flex flex-col">
           <div className="flex items-end gap-2">
             <span className="text-3xl font-medium leading-9 text-neutral-600">
-              $76
+              ${inventory[0].sale_price}
             </span>
             <span className="text-lg font-medium leading-7 text-neutral-400">
-              $95
+              ${inventory[0].list_price}
             </span>
           </div>
-          <Badge variant="warning" size="medium" className="mt-2 self-start">
-            %20 OFF
-          </Badge>
+          {inventory[0].discount && (
+            <Badge variant="warning" size="medium" className="mt-2 self-start">
+              %{inventory[0].discount_percentage} OFF
+            </Badge>
+          )}
         </div>
         <div className="mt-3 flex items-center gap-2">
           <h6 className="text-xl font-normal leading-7 text-neutral-900">
-            4.1
+            {rating}
           </h6>
           <Rating
             name="text-feedback"
             precision={0.5}
-            value={4.1}
+            value={rating}
             emptyIcon={
               <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
             }
           />
           <p className="text-sm font-medium leading-5 text-indigo-700">
-            See all 62 reviews
+            {reviews === 0 && (
+              <>
+                <span className="text-sm font-medium leading-5 text-neutral-500">
+                  No reviews yet.
+                </span>
+                Be the first.
+              </>
+            )}
+            {reviews === 1 && `See ${reviews} review`}
+            {reviews > 1 && `See all ${reviews} reviews`}
           </p>
         </div>
       </div>
       <p className="my-8 text-base font-normal leading-6 text-neutral-600">
-        The Voyager Hoodie is for the explorer at heart. Its durable fabric and
-        roomy pockets are perfect for those who are always searching for the
-        next adventure.
+        {description}
       </p>
       {/* Product buttons */}
       <div className="mb-8 flex flex-col">
@@ -221,62 +237,31 @@ function ProductDetailInfo() {
       </Button>
       {/* Accordion Section */}
       <Accordion type="multiple" className="mt-6 marker:text-neutral-600">
-        <AccordionItem value="item-1">
-          <AccordionTrigger className="text-lg font-medium leading-7 text-neutral-900">
-            Features
-          </AccordionTrigger>
-          <AccordionContent>
-            <ul className="list-inside list-disc">
-              <li className="text-base font-normal leading-6 text-neutral-600">
-                Designed for comfort and durability
-              </li>
-              <li className="text-base font-normal leading-6 text-neutral-600">
-                Designed for comfort and durability
-              </li>
-              <li className="text-base font-normal leading-6 text-neutral-600">
-                Designed for comfort and durability
-              </li>
-              <li className="text-base font-normal leading-6 text-neutral-600">
-                Designed for comfort and durability
-              </li>
-              <li className="text-base font-normal leading-6 text-neutral-600">
-                Designed for comfort and durability
-              </li>
-            </ul>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-2">
-          <AccordionTrigger className="text-lg font-medium leading-7 text-neutral-900">
-            Fabric & Care
-          </AccordionTrigger>
-          <AccordionContent>
-            <ul className="list-inside list-disc">
-              <li className="text-base font-normal leading-6 text-neutral-600">
-                Designed for comfort and durability
-              </li>
-              <li className="text-base font-normal leading-6 text-neutral-600">
-                Designed for comfort and durability
-              </li>
-              <li className="text-base font-normal leading-6 text-neutral-600">
-                Designed for comfort and durability
-              </li>
-              <li className="text-base font-normal leading-6 text-neutral-600">
-                Designed for comfort and durability
-              </li>
-            </ul>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-3">
-          <AccordionTrigger className="text-lg font-medium leading-7 text-neutral-900">
-            Shipping
-          </AccordionTrigger>
-          <AccordionContent>
-            <ul className="list-inside list-disc">
-              <li>Designed for comfort and durability</li>
-              <li>Designed for comfort and durability</li>
-            </ul>
-          </AccordionContent>
-        </AccordionItem>
+        {info.map(
+          (
+            {
+              title,
+              description,
+            }: {
+              title: string;
+              description: String[];
+            },
+            index: number,
+          ) => (
+            <AccordionItem value={`item-${index + 1}`}>
+              <AccordionTrigger className="text-lg font-medium leading-7 text-neutral-900">
+                {title}
+              </AccordionTrigger>
+              <AccordionContent className="mt-2 text-base font-normal leading-6 text-neutral-600">
+                <ul className="list-inside list-disc">
+                  {description.map((desc, index) => (
+                    <li key={index}>{desc}</li>
+                  ))}
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          ),
+        )}
       </Accordion>
     </div>
   );
