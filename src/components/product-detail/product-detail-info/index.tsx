@@ -45,6 +45,10 @@ export function ProductDetailInfo({ product }: any) {
     (item: any) => item.color === colorParam,
   );
 
+  const filteredItemByColor: any = inventory.filter(
+    (item: any) => item.color === colorParam,
+  );
+
   const handleSelect = (color: string) => {
     setSelected(color);
     router.replace(`/?color=${color}&size=${curSize}`);
@@ -161,20 +165,21 @@ export function ProductDetailInfo({ product }: any) {
           </h6>
           <RadioGroup value={curSize} onChange={handleSize} className="">
             <div className="flex flex-wrap gap-4">
-              {sizes.map((s: string, i: number): any => (
+              {filteredItemByColor.map((item: any) => (
                 <RadioGroup.Option
-                  key={i}
-                  value={s}
+                  key={item.sku}
+                  value={item.size ?? "std"}
+                  disabled={item.stock === 0}
                   className={({ active, checked }) =>
                     cn(
-                      "relative flex h-[48px] w-[64px] cursor-pointer items-center justify-center rounded border border-neutral-200 bg-white focus:outline-none",
+                      "relative flex h-[48px] w-[64px] cursor-pointer items-center justify-center rounded border border-neutral-200 bg-white focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
                       checked && "ring-2 ring-indigo-500 ring-offset-2",
                       active && `ring-2 ring-indigo-500 ring-offset-2`,
                     )
                   }
                 >
                   <RadioGroup.Label className="text-base font-medium uppercase leading-6 text-neutral-900">
-                    {adjustSize(s)}
+                    {adjustSize(item.size)}
                   </RadioGroup.Label>
                 </RadioGroup.Option>
               ))}
@@ -217,7 +222,11 @@ export function ProductDetailInfo({ product }: any) {
           </button>
         </div>
       </div>
-      <Button variant="primary" size="large">
+      <Button
+        variant="primary"
+        size="large"
+        disabled={!itemStock || itemStock.stock === 0}
+      >
         Add to Cart
       </Button>
       {/* Accordion Section */}
