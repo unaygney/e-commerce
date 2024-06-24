@@ -17,8 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} scroll-smooth py-4 antialiased`}>
-        <Navbar />
+      <body className={`${inter.className} scroll-smooth antialiased`}>
+        {/* <Navbar /> */}
         {children}
       </body>
     </html>
