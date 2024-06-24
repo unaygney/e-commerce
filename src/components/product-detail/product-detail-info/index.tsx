@@ -31,18 +31,36 @@ export function ProductDetailInfo({ product }: any) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const sizeParam = searchParams.get("size") ?? "xs";
-  const colorParam = searchParams.get("color") ?? "green";
+  let defaultSize = sizes[0] ?? null;
+  let defaultColor = colors[0] ?? null;
+
+  let sizeParam: string | number = searchParams.get("size") ?? defaultSize;
+  const colorParam = searchParams.get("color") ?? defaultColor;
+
+  // Try to parse sizeParam as a number if it's not "std" or other string sizes
+  if (!isNaN(parseFloat(sizeParam as string))) {
+    sizeParam = parseFloat(sizeParam as string);
+  }
 
   const [selected, setSelected] = React.useState<string>(colorParam);
-  const [curSize, setCurSize] = React.useState<string>(sizeParam);
+  const [curSize, setCurSize] = React.useState<string | number>(sizeParam);
   const [quantity, setQuantity] = React.useState<number>(1);
 
-  const filterItemBySize = inventory.filter(
-    (item: any) => item.size === sizeParam,
+  const itemStock = inventory.find(
+    (item: any) =>
+      (item.size === sizeParam ||
+        (sizeParam === "std" && item.size === null) ||
+        (typeof sizeParam === "number" && item.size === sizeParam)) &&
+      item.color === colorParam,
   );
-  const itemStock = filterItemBySize.find(
-    (item: any) => item.color === colorParam,
+
+  console.log(
+    "size param:",
+    sizeParam,
+    "color param:",
+    colorParam,
+    "item stock:",
+    itemStock,
   );
 
   const filteredItemByColor: any = inventory.filter(
@@ -165,7 +183,7 @@ export function ProductDetailInfo({ product }: any) {
           </h6>
           <RadioGroup value={curSize} onChange={handleSize} className="">
             <div className="flex flex-wrap gap-4">
-              {filteredItemByColor.map((item: any) => (
+              {filteredItemByColor?.map((item: any) => (
                 <RadioGroup.Option
                   key={item.sku}
                   value={item.size ?? "std"}
@@ -179,7 +197,9 @@ export function ProductDetailInfo({ product }: any) {
                   }
                 >
                   <RadioGroup.Label className="text-base font-medium uppercase leading-6 text-neutral-900">
-                    {adjustSize(item.size)}
+                    {typeof item.size === "number"
+                      ? item.size
+                      : adjustSize(item.size)}
                   </RadioGroup.Label>
                 </RadioGroup.Option>
               ))}
@@ -205,7 +225,7 @@ export function ProductDetailInfo({ product }: any) {
             <Minus className="h-4 w-4" />
           </button>
           <span className="text-sm font-medium leading-5 text-neutral-600">
-            {quantity}
+            {quantity > itemStock?.stock ? itemStock?.stock : quantity}
           </span>
           <button
             disabled={itemStock?.stock === quantity}
@@ -222,11 +242,7 @@ export function ProductDetailInfo({ product }: any) {
           </button>
         </div>
       </div>
-      <Button
-        variant="primary"
-        size="large"
-        disabled={!itemStock || itemStock.stock === 0}
-      >
+      <Button disabled={itemStock?.stock === 0} variant="primary" size="large">
         Add to Cart
       </Button>
       {/* Accordion Section */}
@@ -259,14 +275,4 @@ export function ProductDetailInfo({ product }: any) {
       </Accordion>
     </div>
   );
-}
-
-interface Plans {
-  color: string;
-  label: string;
-  value: string;
-}
-interface SIZES {
-  label: string;
-  value: string;
 }

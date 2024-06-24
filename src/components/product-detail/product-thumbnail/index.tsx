@@ -17,17 +17,15 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 export function ProductThumbnail({ product }: any) {
-  const [selectedImage, setSelectedImage] = useState<null | string>(null);
-  const { images } = product;
+  const { images, inventory } = product;
   const searchParams = useSearchParams();
-  const color = searchParams.get("color") ?? "green";
+
+  let defaultColor = inventory[0]?.color ?? "";
+
+  const color = searchParams.get("color") ?? defaultColor;
   const filteredImages = images.filter((image: any) => image?.color === color);
 
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
-
-  const handleThumbnailClick = (image_url: string) => {
-    setSelectedImage(image_url);
-  };
 
   return (
     <div className="flex w-full flex-1 flex-col gap-6 lg:max-w-[48%]">
@@ -83,7 +81,6 @@ export function ProductThumbnail({ product }: any) {
           {filteredImages.map((image: any, index: number) => (
             <SwiperSlide
               key={index}
-              onClick={() => handleThumbnailClick(image.image_url)}
               className="relative h-full w-full min-w-[80px] flex-1 cursor-pointer overflow-hidden rounded-lg md:min-w-[188px] lg:min-w-[160px]"
             >
               <Image
