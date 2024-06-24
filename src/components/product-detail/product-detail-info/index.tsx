@@ -20,10 +20,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Product } from "@/lib/definitions";
 
 import { adjustSize } from "@/lib/helper";
 
-export function ProductDetailInfo({ product }: any) {
+interface ProductDetailProps {
+  product: Product;
+}
+
+export function ProductDetailInfo({ product }: ProductDetailProps) {
   const {
     name,
     description,
@@ -75,7 +80,7 @@ export function ProductDetailInfo({ product }: any) {
   };
 
   const handleIncrease = () => {
-    if (itemStock && itemStock.stock > quantity) {
+    if (itemStock && itemStock.stock! > quantity) {
       setQuantity(quantity + 1);
     }
   };
@@ -222,7 +227,7 @@ export function ProductDetailInfo({ product }: any) {
             <Minus className="h-4 w-4" />
           </button>
           <span className="text-sm font-medium leading-5 text-neutral-600">
-            {quantity > itemStock?.stock ? itemStock?.stock : quantity}
+            {quantity > itemStock?.stock! ? itemStock?.stock : quantity}
           </span>
           <TooltipProvider>
             <Tooltip>

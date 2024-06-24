@@ -15,8 +15,13 @@ import "swiper/css/thumbs";
 
 // import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { Product } from "@/lib/definitions";
 
-export function ProductThumbnail({ product }: any) {
+interface ProductDetailProps {
+  product: Product;
+}
+
+export function ProductThumbnail({ product }: ProductDetailProps) {
   const { images, inventory } = product;
   const searchParams = useSearchParams();
 

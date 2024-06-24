@@ -1,4 +1,6 @@
-export async function getProductById(id: string) {
+import { Product } from "./definitions";
+
+export async function getProductById(id: string): Promise<Product | undefined> {
   try {
     let url: string = `https://www.greatfrontend.com/api/projects/challenges/e-commerce/products/${id}`;
 
