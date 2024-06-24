@@ -14,6 +14,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { adjustSize } from "@/lib/helper";
 
 export function ProductDetailInfo({ product }: any) {
@@ -37,7 +44,6 @@ export function ProductDetailInfo({ product }: any) {
   let sizeParam: string | number = searchParams.get("size") ?? defaultSize;
   const colorParam = searchParams.get("color") ?? defaultColor;
 
-  // Try to parse sizeParam as a number if it's not "std" or other string sizes
   if (!isNaN(parseFloat(sizeParam as string))) {
     sizeParam = parseFloat(sizeParam as string);
   }
@@ -52,15 +58,6 @@ export function ProductDetailInfo({ product }: any) {
         (sizeParam === "std" && item.size === null) ||
         (typeof sizeParam === "number" && item.size === sizeParam)) &&
       item.color === colorParam,
-  );
-
-  console.log(
-    "size param:",
-    sizeParam,
-    "color param:",
-    colorParam,
-    "item stock:",
-    itemStock,
   );
 
   const filteredItemByColor: any = inventory.filter(
@@ -227,19 +224,28 @@ export function ProductDetailInfo({ product }: any) {
           <span className="text-sm font-medium leading-5 text-neutral-600">
             {quantity > itemStock?.stock ? itemStock?.stock : quantity}
           </span>
-          <button
-            disabled={itemStock?.stock === quantity}
-            className={cn(
-              "inline-flex h-5 w-5 items-center justify-center text-neutral-600 transition-colors",
-              {
-                "cursor-not-allowed text-neutral-400":
-                  itemStock?.stock === quantity,
-              },
-            )}
-            onClick={handleIncrease}
-          >
-            <Plus className="h-4 w-4" />
-          </button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
+                disabled={itemStock?.stock === quantity}
+                className={cn(
+                  "inline-flex h-5 w-5 items-center justify-center text-neutral-600 transition-colors",
+                  {
+                    "cursor-not-allowed text-neutral-400":
+                      itemStock?.stock === quantity,
+                  },
+                )}
+                onClick={handleIncrease}
+              >
+                <Plus className="h-4 w-4" />
+              </TooltipTrigger>
+              <TooltipContent className="inline-flex items-center justify-center rounded-lg bg-neutral-950 px-3 py-2">
+                <p className="text-xs font-medium leading-4 text-white">
+                  Insufficient stock
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
       <Button disabled={itemStock?.stock === 0} variant="primary" size="large">
