@@ -1,21 +1,24 @@
 "use client";
 
+//* React and Next
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+
+//*Utils
 import { toBase64 } from "@/lib/helper";
 import { Shimmer } from "@/components/icons";
-import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper";
-// Import Swiper styles
+
+//* Swiper CSS
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-
-// import required modules
+//* Swiper Modules
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Product } from "@/lib/definitions";
+import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 
 interface ProductDetailProps {
   product: Product;
@@ -62,16 +65,15 @@ export function ProductThumbnail({ product }: ProductDetailProps) {
                 alt="image"
                 src={image?.image_url}
                 placeholder={`data:image/svg+xml;base64,${toBase64(Shimmer(700, 475))}`}
+                className="object-cover"
               />
             </SwiperSlide>
           ))}
         </Swiper>
         <Swiper
           onSwiper={setThumbsSwiper}
-          loop={true}
           spaceBetween={10}
           slidesPerView={3}
-          freeMode={true}
           watchSlidesProgress={true}
           modules={[FreeMode, Navigation, Thumbs]}
           className="no-scrollbar flex h-[120px] w-full gap-4 overflow-scroll md:h-[190px]"
