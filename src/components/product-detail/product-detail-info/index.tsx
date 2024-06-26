@@ -3,13 +3,16 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 //* Components
 import { Rating } from "@mui/material";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import { StarIcon, CheckIcon, Minus, Plus } from "lucide-react";
 import { RadioGroup } from "@headlessui/react";
-import ProductReview from "@/components/product-review";
+const ProductReview = dynamic(() => import("@/components/product-review"), {
+  loading: () => <p>bekle ulen...</p>,
+});
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Accordion,
@@ -91,7 +94,7 @@ function ProductHeader({ product }: ProductDetailProps) {
             </p>
           </DialogTrigger>
           <DialogContent>
-            <ProductReview />
+            <ProductReview productName={"urban-drift-bucket-hat"} />
           </DialogContent>
         </Dialog>
       </div>
