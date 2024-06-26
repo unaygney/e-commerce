@@ -77,3 +77,46 @@ export interface Product {
   sizes: (string | number)[];
   sold: number;
 }
+
+export interface ErrorResponse {
+  error?: boolean;
+  status?: number;
+  message?: string;
+}
+
+interface User {
+  name: string;
+  user_id: string;
+  avatar_url: string;
+}
+
+interface Review {
+  rating: number;
+  content: string;
+  created_at: string;
+  user: User;
+}
+
+interface Count {
+  count: number;
+  rating: number;
+}
+
+interface Aggregate {
+  counts: Count[];
+  rating: number;
+  total: number;
+}
+
+interface Pagination {
+  has_more: boolean;
+  page: number;
+  per_page: number;
+  total: number;
+}
+
+export interface ReviewsResponse {
+  aggregate: Aggregate;
+  data: Review[];
+  pagination: Pagination;
+}
