@@ -10,9 +10,7 @@ import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import { StarIcon, CheckIcon, Minus, Plus } from "lucide-react";
 import { RadioGroup } from "@headlessui/react";
-const ProductReview = dynamic(() => import("@/components/product-review"), {
-  loading: () => <p>bekle ulen...</p>,
-});
+import ProductReview from "@/components/product-review";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Accordion,
@@ -93,7 +91,11 @@ function ProductHeader({ product }: ProductDetailProps) {
               {reviews > 1 && `See all ${reviews} reviews`}
             </p>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent
+            className={cn(
+              "h-[90%] w-[85%] max-w-[1008px] overflow-scroll rounded-lg md:w-[68%] lg:h-[624px]",
+            )}
+          >
             <ProductReview productName={"urban-drift-bucket-hat"} />
           </DialogContent>
         </Dialog>
