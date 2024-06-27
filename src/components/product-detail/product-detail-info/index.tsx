@@ -96,7 +96,7 @@ function ProductHeader({ product }: ProductDetailProps) {
               "h-[90%] w-[85%] max-w-[1008px] overflow-scroll rounded-lg md:w-[68%] lg:h-[624px]",
             )}
           >
-            <ProductReview productName={"urban-drift-bucket-hat"} />
+            <ProductReview productName={"voyager-hoodie"} />
           </DialogContent>
         </Dialog>
       </div>
