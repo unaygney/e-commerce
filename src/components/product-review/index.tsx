@@ -1,38 +1,38 @@
 "use client";
-
+// React And Next.js
 import React from "react";
-import { DialogDescription } from "@/components/ui/dialog";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { cn } from "@/lib/utils";
+
+//components
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "../button";
 import { Rating } from "@mui/material";
 import { StarIcon } from "lucide-react";
-import { Button } from "../button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getProductReview } from "@/lib/services";
 import { getInitials, getRatingText } from "@/lib/helper";
 import { Progress } from "@/components/ui/progress";
+
+//utils and services
+import { cn } from "@/lib/utils";
+import { DialogDescription } from "@/components/ui/dialog";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getProductReview } from "@/lib/services";
+import { ReviewsResponse } from "@/lib/definitions";
 
 export default function ProductReview({
   productName,
 }: {
   productName: string;
 }) {
-  const { data, isLoading, isError, fetchNextPage, hasNextPage } =
-    useInfiniteQuery({
-      queryKey: ["reviews", productName],
-      queryFn: async ({ pageParam = 1 }) =>
-        await getProductReview("voyager-hoodie", { page: pageParam }),
-      getNextPageParam: (lastPage) =>
-        lastPage.pagination.has_more ? lastPage.pagination.page + 1 : undefined,
-      initialPageParam: 1,
-    });
+  const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ["reviews", productName],
+    queryFn: async ({ pageParam = 1 }) =>
+      await getProductReview("voyager-hoodie", { page: pageParam }),
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination.has_more ? lastPage.pagination.page + 1 : undefined,
+    initialPageParam: 1,
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error loading reviews.</div>;
   }
 
   const allReviews = data?.pages.flatMap((page) => page.data) ?? [];
@@ -51,9 +51,8 @@ export default function ProductReview({
   );
 }
 
-function ReviewsSummary({ data }: { data: any }) {
+function ReviewsSummary({ data }: { data: SummaryReview }) {
   const sortedCounts = [...data.counts].sort((a, b) => b.rating - a.rating);
-  console.log(sortedCounts);
 
   function getRatingColor(rating: number): string {
     switch (rating) {
@@ -124,12 +123,12 @@ function Reviews({
   fetchNextPage,
   hasNextPage,
 }: {
-  data: any[];
-  fetchNextPage: any;
+  data: ReviewsResponse[];
+  fetchNextPage: () => void;
   hasNextPage: boolean;
 }) {
   return (
-    <div>
+    <div className="flex flex-col gap-10">
       <div className="flex w-full flex-col gap-6 lg:flex-1">
         {data.map((review: any, index: number) => (
           <div className="flex flex-col gap-4" key={index}>
@@ -176,7 +175,7 @@ function Reviews({
       {hasNextPage && (
         <Button
           variant="secondary"
-          className={cn("mx-auto mt-10 w-full px-5 py-3")}
+          className={cn("mx-auto w-full px-5 py-3")}
           onClick={() => fetchNextPage()}
         >
           Show 10 more reviews
@@ -184,4 +183,15 @@ function Reviews({
       )}
     </div>
   );
+}
+
+interface SummaryReview {
+  rating: number;
+  total: number;
+  counts: Count[];
+}
+
+interface Count {
+  count: number;
+  rating: number;
 }
