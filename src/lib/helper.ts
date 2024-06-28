@@ -40,3 +40,20 @@ export function getInitials(fullName: string): string {
 
   return initials.toUpperCase();
 }
+
+export function getRatingText(rating: number): string {
+  switch (rating) {
+    case 5:
+      return "Excellent";
+    case 4:
+      return "Good";
+    case 3:
+      return "Average";
+    case 2:
+      return "Below Average";
+    case 1:
+      return "Poor";
+    default:
+      return "Unknown";
+  }
+}
