@@ -3,7 +3,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import dynamic from "next/dynamic";
 //* Components
 import { Rating } from "@mui/material";
 import { Badge } from "@/components/badge";
