@@ -2,15 +2,24 @@
 
 import React from "react";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { getProductReview } from "@/lib/services";
+// import { getProductReview } from "@/lib/services";
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { Rating } from "@mui/material";
 import { StarIcon } from "lucide-react";
 import { Button } from "../button";
 import Image from "next/image";
-import { formatDate, toBase64 } from "@/lib/helper";
+import { formatDate, getInitials, toBase64 } from "@/lib/helper";
 import { Shimmer } from "../icons";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+const getReview = async () => {
+  const response = await fetch(
+    `https://www.greatfrontend.com/api/projects/challenges/e-commerce/products/voyager-hoodie/reviews`,
+  );
+  const data = await response.json();
+  return data;
+};
 export default function ProductReview({
   productName,
 }: {
@@ -18,12 +27,14 @@ export default function ProductReview({
 }) {
   const { data, isLoading } = useQuery({
     queryKey: ["reviews", productName],
-    queryFn: async () => await getProductReview("urban-drift-bucket-hat"),
+    queryFn: async () => await getReview(),
   });
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  console.log(data);
 
   return (
     <>
@@ -80,13 +91,23 @@ function Reviews({ data }: { data: any }) {
           <div className="flex flex-col gap-4" key={index}>
             <div className="flex gap-4">
               <div className="relative h-12 w-12 overflow-hidden rounded-full">
-                <Image
-                  src={review.user.avatar_url}
-                  alt={`${review.user.name}'s photo`}
-                  fill
-                  placeholder={`data:image/svg+xml;base64,${toBase64(Shimmer(700, 475))}`}
-                  className="object-cover"
-                />
+                {review.user.avatar_url ? (
+                  <Avatar>
+                    <AvatarImage
+                      className="object-cover"
+                      src={review?.user?.avatar_url}
+                    />
+                    <AvatarFallback>
+                      {getInitials(review.user.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <Avatar>
+                    <AvatarFallback>
+                      {getInitials(review.user.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                )}
               </div>
               <div className="flex flex-col gap-1">
                 <h4>{review.user.name}</h4>
