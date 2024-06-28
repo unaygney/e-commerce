@@ -28,3 +28,15 @@ export function formatDate(dateString: string) {
 
   return `${monthName} ${day}, ${year}`;
 }
+
+export function getInitials(fullName: string): string {
+  const names = fullName.split(" ").filter(Boolean);
+  if (names.length === 0) return "";
+
+  const initials =
+    names.length > 1
+      ? `${names[0][0]}${names[names.length - 1][0]}`
+      : names[0][0];
+
+  return initials.toUpperCase();
+}
