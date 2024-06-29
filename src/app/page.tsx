@@ -3,6 +3,7 @@ import ProductDetail from "@/components/product-detail";
 import { getProductById } from "@/lib/services";
 import { Product } from "@/lib/definitions";
 import ProductSpecifications from "@/components/product-specifications";
+import ProductsGrid from "@/components/products-grid";
 export default async function Home() {
   const product: Product | undefined = await getProductById("voyager-hoodie");
 
@@ -16,7 +17,8 @@ export default async function Home() {
         <ProductDetail product={product} />
       </Suspense> */}
 
-      <ProductSpecifications />
+      {/* <ProductSpecifications /> */}
+      <ProductsGrid />
     </main>
   );
 }
