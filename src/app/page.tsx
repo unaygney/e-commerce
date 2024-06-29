@@ -4,6 +4,7 @@ import { getProductById } from "@/lib/services";
 import { Product } from "@/lib/definitions";
 import ProductSpecifications from "@/components/product-specifications";
 import ProductsGrid from "@/components/products-grid";
+import Footer from "@/components/footer";
 export default async function Home() {
   const product: Product | undefined = await getProductById("voyager-hoodie");
 
@@ -19,6 +20,7 @@ export default async function Home() {
 
       {/* <ProductSpecifications /> */}
       <ProductsGrid />
+      <Footer />
     </main>
   );
 }
