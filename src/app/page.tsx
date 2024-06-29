@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import ProductDetail from "@/components/product-detail";
 import { getProductById } from "@/lib/services";
 import { Product } from "@/lib/definitions";
-
+import ProductSpecifications from "@/components/product-specifications";
 export default async function Home() {
   const product: Product | undefined = await getProductById("voyager-hoodie");
 
@@ -12,9 +12,11 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen w-full bg-gray-300 p-10">
-      <Suspense fallback={<div>Loading...</div>}>
+      {/* <Suspense fallback={<div>Loading...</div>}>
         <ProductDetail product={product} />
-      </Suspense>
+      </Suspense> */}
+
+      <ProductSpecifications />
     </main>
   );
 }

@@ -92,7 +92,7 @@ function ProductHeader({ product }: ProductDetailProps) {
           </DialogTrigger>
           <DialogContent
             className={cn(
-              "h-[90%] w-[85%] max-w-[1008px] overflow-scroll rounded-lg md:w-[68%] lg:h-[624px]",
+              "h-[90vh] w-[85vw] max-w-[1008px] rounded-lg md:w-[68%] lg:h-[624px]",
             )}
           >
             <ProductReview productName={"voyager-hoodie"} />
