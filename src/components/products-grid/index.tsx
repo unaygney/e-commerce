@@ -18,7 +18,6 @@ export default async function ProductsGrid() {
 
   if (!products) notFound();
 
-  console.log(products.data);
   return (
     <section className="mx-auto flex w-full max-w-[1408px] flex-col gap-8 rounded bg-white px-3 py-12 shadow-sm md:px-4 md:py-16 xl:p-24">
       <div className="flex justify-between">
