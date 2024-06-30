@@ -56,3 +56,21 @@ export async function getProductReview(id: string, params?: ReviewQueryParams) {
     console.log(e);
   }
 }
+
+export const subscribeEmail = async (email: string) => {
+  const url = `https://www.greatfrontend.com/api/projects/challenges/newsletter`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("An unexpected error occurred");
+  }
+};
