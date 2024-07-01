@@ -5,6 +5,7 @@ import Image from "next/image";
 import { toBase64 } from "@/lib/helper";
 import { Shimmer } from "../icons";
 import Link from "next/link";
+
 const getProducs = async () => {
   const response = await fetch(
     "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=latest",
@@ -13,20 +14,28 @@ const getProducs = async () => {
   return data;
 };
 
-export default async function ProductsGrid() {
+export default async function ProductsGrid({
+  title = "",
+  viewAll = false,
+}: {
+  title: string;
+  viewAll: boolean;
+}) {
   const products = await getProducs();
 
   if (!products) notFound();
 
   return (
-    <section className="mx-auto flex w-full max-w-[1408px] flex-col gap-8 rounded bg-white px-3 py-12 shadow-sm md:px-4 md:py-16 xl:p-24">
+    <section className="container mx-auto flex w-full flex-col gap-8 bg-white px-3 py-12 shadow-sm md:px-4 md:py-16 xl:p-24">
       <div className="flex justify-between">
         <h2 className="text-2xl font-semibold leading-8 text-neutral-900">
-          Latest Arrivals
+          {title}
         </h2>
-        <Button variant="secondary" size="medium">
-          View all
-        </Button>
+        {viewAll && (
+          <Button variant="secondary" size="medium">
+            View all
+          </Button>
+        )}
       </div>
       <ProductCard products={products.data} />
     </section>

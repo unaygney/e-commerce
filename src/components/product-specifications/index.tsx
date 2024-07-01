@@ -7,7 +7,7 @@ export default function ProductSpecifications() {
   return (
     <section
       id="product-specifications"
-      className="flex flex-col gap-16 rounded bg-white px-4 py-12 shadow-sm md:py-16 xl:px-28 xl:py-24"
+      className="container mx-auto flex w-full flex-col gap-16 bg-white px-4 py-12 shadow-sm md:py-16 xl:px-28 xl:py-24"
     >
       <ProductHeader />
       <ProductInformation />

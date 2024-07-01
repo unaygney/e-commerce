@@ -3,7 +3,7 @@ import React from "react";
 const ProductGridLoading: React.FC = () => {
   const placeholders = Array.from({ length: 8 });
   return (
-    <section className="mx-auto flex w-full max-w-[1408px] flex-col gap-8 rounded bg-white px-3 py-12 shadow-sm md:px-4 md:py-16 xl:p-24">
+    <section className="container mx-auto flex w-full flex-col gap-8 bg-white px-3 py-12 shadow-sm md:px-4 md:py-16 xl:p-24">
       <div className="flex justify-between">
         <div className="shimmer mb-4 h-8 w-1/3"></div>
         <div className="shimmer mb-4 h-8 w-1/6"></div>

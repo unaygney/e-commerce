@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer
       id="footer"
-      className="mx-auto flex w-full max-w-[1408px] flex-col bg-white px-4 py-12 md:py-16 xl:p-24"
+      className="container mx-auto flex w-full flex-col bg-white px-4 py-12 md:py-16 xl:p-24"
     >
       <Newsletter />
       <Navlinks />
