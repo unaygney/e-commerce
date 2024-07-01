@@ -18,6 +18,9 @@ export async function getProductById(id: string): Promise<Product | undefined> {
         Accept: "application/json",
       },
     });
+    const sleep = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(3000);
 
     const data = await response.json();
     return data;
