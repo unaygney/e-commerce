@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import ReactQueryProvider from "@/components/Providers/ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +20,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} scroll-smooth antialiased`}>
+      <body
+        className={`${inter.className} scroll-smooth bg-gray-200 p-4 antialiased`}
+      >
         <ReactQueryProvider>
-          {/* <Navbar /> */}
+          <Navbar />
           {children}
           <Toaster />
+          <Footer />
         </ReactQueryProvider>
       </body>
     </html>
