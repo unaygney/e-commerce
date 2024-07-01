@@ -120,3 +120,11 @@ export interface ReviewsResponse {
   data: Review[];
   pagination: Pagination;
 }
+
+export interface Collections {
+  collection_id: string;
+  name: string;
+  description: string;
+  image_url: string;
+  created_at: string;
+}
