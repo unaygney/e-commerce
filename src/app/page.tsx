@@ -1,10 +1,9 @@
-import React, { Suspense } from "react";
-import ProductDetail from "@/components/product-detail";
+import React from "react";
 import { getProductById } from "@/lib/services";
-import { Product } from "@/lib/definitions";
-import ProductSpecifications from "@/components/product-specifications";
-import ProductsGrid from "@/components/products-grid";
+import { Collections, Product } from "@/lib/definitions";
 import Footer from "@/components/footer";
+import CollectionsGridSection from "@/components/collections-grid-section";
+
 export default async function Home() {
   const product: Product | undefined = await getProductById("voyager-hoodie");
 
@@ -14,12 +13,6 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen w-full bg-gray-300 p-10">
-      {/* <Suspense fallback={<div>Loading...</div>}>
-        <ProductDetail product={product} />
-      </Suspense> */}
-
-      {/* <ProductSpecifications /> */}
-      {/* <ProductsGrid /> */}
       <Footer />
     </main>
   );
