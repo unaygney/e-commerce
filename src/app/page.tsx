@@ -19,7 +19,7 @@ export default async function Home() {
       </Suspense> */}
 
       {/* <ProductSpecifications /> */}
-      <ProductsGrid />
+      {/* <ProductsGrid /> */}
       <Footer />
     </main>
   );
