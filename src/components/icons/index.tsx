@@ -1,4 +1,5 @@
 import React from "react";
+
 export function Basket(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -37,20 +38,19 @@ export function Logo(props: React.SVGProps<SVGSVGElement>) {
 }
 export function Shimmer(w: number, h: number) {
   return `
-<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg  width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <linearGradient id="g">
-      <stop stop-color="#333" offset="20%" />
-      <stop stop-color="#222" offset="50%" />
-      <stop stop-color="#333" offset="70%" />
+      <stop stop-color="#f0f0f0" offset="20%" />
+      <stop stop-color="#e0e0e0" offset="50%" />
+      <stop stop-color="#f0f0f0" offset="75%" />
     </linearGradient>
   </defs>
-  <rect width="${w}" height="${h}" fill="#333" />
+  <rect width="${w}" height="${h}" fill="#f0f0f0" />
   <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
   <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
 </svg>`;
 }
-
 export function WaterFlashLine(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -68,7 +68,6 @@ export function WaterFlashLine(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
 export function PlantLine(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -86,7 +85,6 @@ export function PlantLine(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
 export function PaintLine(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -104,7 +102,6 @@ export function PaintLine(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
 export function Scale2(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -122,7 +119,6 @@ export function Scale2(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
 export function PriceTag2(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -140,7 +136,6 @@ export function PriceTag2(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
 export function Shirt2(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -158,7 +153,6 @@ export function Shirt2(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
 export function Youtube(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg

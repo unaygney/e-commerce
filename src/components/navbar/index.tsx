@@ -20,7 +20,7 @@ export default function Navbar() {
   }, [open]);
 
   return (
-    <header className="container relative mx-auto flex h-[68px] w-full items-center justify-between px-4 py-[18px] md:px-4 lg:justify-start lg:px-0">
+    <header className="container relative mx-auto flex h-[68px] w-full max-w-[1216px] items-center justify-between bg-transparent px-4 py-[18px] md:px-4 lg:justify-start lg:px-0">
       <Link className="flex items-center" href="/">
         <Logo />
         <p className="text-base font-bold leading-6 tracking-[-0.96px] text-neutral-900">
