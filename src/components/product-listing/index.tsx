@@ -1,7 +1,8 @@
+"use client";
 import React from "react";
 import ProductsGrid from "../products-grid";
 import { Button } from "../button";
-import { Filter, StarIcon } from "lucide-react";
+import { Filter, StarIcon, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -23,14 +24,28 @@ import { Label } from "../label";
 import Rating from "@mui/material/Rating";
 
 export default function ProductListing() {
+  const [isActive, setActive] = React.useState<boolean>(false);
+
   return (
-    <section className="container mx-auto flex bg-white py-12 md:py-16 xl:flex-row xl:gap-16 xl:p-24">
-      <FilterCard />
+    <section className="relative mx-auto flex h-full w-full bg-white py-12 md:py-16 xl:flex-row xl:gap-16 xl:p-24">
+      <FilterCard isActive={isActive} setActive={setActive} />
       <ProductsGrid
         className="xl:grid-cols-3"
-        leftComponent={<FilterButton className="xl:hidden" />}
+        leftComponent={
+          <FilterButton
+            className="xl:hidden"
+            isActive={isActive}
+            setActive={setActive}
+          />
+        }
         rightComponent={<SortButton />}
       />
+      {isActive && (
+        <div
+          className="fixed inset-0 z-40 bg-black bg-opacity-50"
+          aria-hidden="true"
+        />
+      )}
     </section>
   );
 }
@@ -60,12 +75,21 @@ function SortButton() {
   );
 }
 
-function FilterButton({ className }: { className?: string }) {
+function FilterButton({
+  isActive,
+  setActive,
+  className,
+}: {
+  className?: string;
+  isActive: boolean;
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <Button
       variant="secondary"
       size="medium"
       className={cn("w-[91px]", className)}
+      onClick={() => setActive(!isActive)}
     >
       <Filter width={16} height={16} />
       Filter
@@ -73,9 +97,31 @@ function FilterButton({ className }: { className?: string }) {
   );
 }
 
-function FilterCard() {
+function FilterCard({
+  className,
+  isActive,
+  setActive,
+}: {
+  className?: string;
+  isActive: boolean;
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
-    <aside className="hidden w-full max-w-[248px] pb-4 pr-4 pt-4 xl:flex">
+    <aside
+      className={cn(
+        "fixed inset-y-0 left-0 z-50 w-[90%] transform bg-white p-4 transition-transform duration-300 xl:relative xl:w-full xl:max-w-[248px] xl:transform-none xl:pb-4 xl:pl-0 xl:pr-4 xl:pt-4",
+        isActive ? "translate-x-0" : "-translate-x-full",
+        className,
+      )}
+    >
+      <div className="flex items-center justify-between xl:hidden">
+        <h4 className="text-xl font-normal leading-7 text-neutral-900">
+          Filter
+        </h4>
+        <button onClick={() => setActive(false)}>
+          <X width={20} height={20} />
+        </button>
+      </div>
       <Accordion type="multiple" className="w-full">
         {FILTER_OPTIONS.map(({ tab_content, tab_title, id }) => {
           if (tab_title === "Collections" || tab_title === "Category") {
