@@ -16,14 +16,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
+import { useClickAway } from "@uidotdev/usehooks";
 import { cn } from "@/lib/utils";
 import { FILTER_OPTIONS, SORT_OPTIONS } from "./constant";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../label";
 import Rating from "@mui/material/Rating";
 
-export default function ProductListing() {
+export default function ProductListing({ products }: { products: any }) {
   const [isActive, setActive] = React.useState<boolean>(false);
 
   return (
@@ -39,6 +39,7 @@ export default function ProductListing() {
           />
         }
         rightComponent={<SortButton />}
+        products={products}
       />
       {isActive && (
         <div
@@ -97,7 +98,7 @@ function FilterButton({
   );
 }
 
-function FilterCard({
+const FilterCard = ({
   className,
   isActive,
   setActive,
@@ -105,9 +106,14 @@ function FilterCard({
   className?: string;
   isActive: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+}) => {
+  const ref: any = useClickAway(() => {
+    setActive(false);
+  });
+
   return (
     <aside
+      ref={ref}
       className={cn(
         "fixed inset-y-0 left-0 z-50 w-[90%] transform bg-white p-4 transition-transform duration-300 xl:relative xl:w-full xl:max-w-[248px] xl:transform-none xl:pb-4 xl:pl-0 xl:pr-4 xl:pt-4",
         isActive ? "translate-x-0" : "-translate-x-full",
@@ -202,4 +208,4 @@ function FilterCard({
       </Accordion>
     </aside>
   );
-}
+};

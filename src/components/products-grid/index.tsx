@@ -1,40 +1,29 @@
-import React, { ReactElement } from "react";
-import { Button } from "../button";
-import { notFound } from "next/navigation";
+"use client";
+import React from "react";
 import Image from "next/image";
 import { toBase64 } from "@/lib/helper";
 import { Shimmer } from "../icons";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const getProducs = async () => {
-  const response = await fetch(
-    "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=latest",
-  );
-  const data = await response.json();
-  return data;
-};
-
-export default async function ProductsGrid({
+export default function ProductsGrid({
+  products,
   leftComponent = null,
   rightComponent = null,
   className,
 }: {
+  products: any;
   leftComponent?: string | React.ReactNode | null;
   rightComponent?: string | React.ReactNode | null;
   className?: string;
 }) {
-  const products = await getProducs();
-
-  if (!products) notFound();
-
   return (
     <section className="container mx-auto flex w-full flex-col gap-8 bg-white px-3 shadow-sm">
       <div className="flex items-center justify-between">
         {leftComponent && leftComponent}
         {rightComponent && rightComponent}
       </div>
-      <ProductCard className={className} products={products.data} />
+      <ProductCard className={className} products={products?.data} />
     </section>
   );
 }
@@ -53,7 +42,7 @@ function ProductCard({
         className,
       )}
     >
-      {products.map((product) => (
+      {products?.map((product) => (
         <Link
           href={product.product_id}
           key={product.id}
