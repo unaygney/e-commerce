@@ -15,7 +15,7 @@ export default async function ProductDetailPage() {
     <main className="">
       <ProductDetail product={product} />
       <ProductSpecifications />
-      <ProductsGrid title="" viewAll={false} />
+      <ProductsGrid />
     </main>
   );
 }

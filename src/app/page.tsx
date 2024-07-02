@@ -1,8 +1,8 @@
 import React from "react";
 import { getProductById } from "@/lib/services";
-import { Collections, Product } from "@/lib/definitions";
-import Footer from "@/components/footer";
-import CollectionsGridSection from "@/components/collections-grid-section";
+import { Product } from "@/lib/definitions";
+
+import ProductListing from "@/components/product-listing";
 
 export default async function Home() {
   const product: Product | undefined = await getProductById("voyager-hoodie");
@@ -12,8 +12,8 @@ export default async function Home() {
   }
 
   return (
-    <main className="min-h-screen w-full bg-gray-300 p-10">
-      <Footer />
+    <main className="min-h-screen w-full bg-gray-300 p-4">
+      <ProductListing />
     </main>
   );
 }

@@ -21,13 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} scroll-smooth bg-gray-200 p-4 antialiased`}
+        className={`${inter.className} scroll-smooth bg-gray-200 antialiased`}
       >
         <ReactQueryProvider>
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
           <Toaster />
-          <Footer />
+          {/* <Footer /> */}
         </ReactQueryProvider>
       </body>
     </html>

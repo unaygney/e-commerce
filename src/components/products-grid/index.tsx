@@ -1,10 +1,11 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { Button } from "../button";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { toBase64 } from "@/lib/helper";
 import { Shimmer } from "../icons";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const getProducs = async () => {
   const response = await fetch(
@@ -15,36 +16,43 @@ const getProducs = async () => {
 };
 
 export default async function ProductsGrid({
-  title = "",
-  viewAll = false,
+  leftComponent = null,
+  rightComponent = null,
+  className,
 }: {
-  title: string;
-  viewAll: boolean;
+  leftComponent?: string | React.ReactNode | null;
+  rightComponent?: string | React.ReactNode | null;
+  className?: string;
 }) {
   const products = await getProducs();
 
   if (!products) notFound();
 
   return (
-    <section className="container mx-auto flex w-full flex-col gap-8 bg-white px-3 py-12 shadow-sm md:px-4 md:py-16 xl:p-24">
-      <div className="flex justify-between">
-        <h2 className="text-2xl font-semibold leading-8 text-neutral-900">
-          {title}
-        </h2>
-        {viewAll && (
-          <Button variant="secondary" size="medium">
-            View all
-          </Button>
-        )}
+    <section className="container mx-auto flex w-full flex-col gap-8 bg-white px-3 shadow-sm">
+      <div className="flex items-center justify-between">
+        {leftComponent && leftComponent}
+        {rightComponent && rightComponent}
       </div>
-      <ProductCard products={products.data} />
+      <ProductCard className={className} products={products.data} />
     </section>
   );
 }
 
-function ProductCard({ products }: { products: any[] }) {
+function ProductCard({
+  products,
+  className,
+}: {
+  products: any[];
+  className?: string;
+}) {
   return (
-    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
+    <div
+      className={cn(
+        "grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4",
+        className,
+      )}
+    >
       {products.map((product) => (
         <Link
           href={product.product_id}
