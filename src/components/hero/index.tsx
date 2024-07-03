@@ -17,7 +17,7 @@ export default function Hero() {
         </h1>
         <p className="text-lg font-normal leading-7 text-neutral-600 md:text-xl md:leading-7">
           This year, our new summer collection will be your haven from the
-          world's harsh elements.
+          world&apos;s harsh elements.
         </p>
         <Link
           href="#"
