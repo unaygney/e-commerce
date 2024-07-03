@@ -44,7 +44,7 @@ function EmptyCard() {
               Your cart is empty
             </h2>
             <p className="text-base font-normal leading-6 text-neutral-900">
-              Let's go explore some products
+              Let&apos;s go explore some products
             </p>
           </div>
           <Link
