@@ -63,7 +63,9 @@ export default function Navbar() {
       {/* Desktop Buttons */}
       <div className="ml-auto hidden items-center gap-4 lg:flex">
         <Button variant="linkColor">
-          <Basket />
+          <Link href="/basket">
+            <Basket />
+          </Link>
         </Button>
       </div>
     </header>
