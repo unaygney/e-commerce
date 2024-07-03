@@ -6,10 +6,11 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;
   error?: boolean;
+  noIcon?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, icon, type, error, ...props }, ref) => {
+  ({ className, icon, noIcon = true, type, error, ...props }, ref) => {
     return (
       <div className="relative flex">
         <input
@@ -27,14 +28,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {icon}
           </div>
         )}
-        <CircleHelp
-          width={16}
-          height={16}
-          className={cn(
-            "absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500",
-            error && "text-red-500",
-          )}
-        />
+        {!noIcon && (
+          <CircleHelp
+            width={16}
+            height={16}
+            className={cn(
+              "absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500",
+              error && "text-red-500",
+            )}
+          />
+        )}
       </div>
     );
   },
