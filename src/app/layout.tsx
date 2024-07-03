@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Noto_Sans } from "next/font/google";
 import "./globals.css";
-
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 import ReactQueryProvider from "@/components/Providers/ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -20,13 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${noto_sans.className} scroll-smooth bg-gray-200 antialiased`}
+        className={`${noto_sans.className} scroll-smooth bg-gray-200 p-4 antialiased`}
       >
         <ReactQueryProvider>
-          {/* <Navbar /> */}
+          <Navbar />
           {children}
           <Toaster />
-          {/* <Footer /> */}
+          <Footer />
         </ReactQueryProvider>
       </body>
     </html>

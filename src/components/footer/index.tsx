@@ -5,7 +5,7 @@ import { Button } from "../button";
 import { cn } from "@/lib/utils";
 import { Logo } from "../icons";
 import Link from "next/link";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { subscribeEmail } from "@/lib/services";
 import { useToast } from "../ui/use-toast";
 
@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer
       id="footer"
-      className="container mx-auto flex w-full flex-col bg-white px-4 py-12 md:py-16 xl:p-24"
+      className="mx-auto flex w-full max-w-[1408px] flex-col rounded-b-lg bg-white px-4 py-12 md:py-16 xl:p-24"
     >
       <Newsletter />
       <Navlinks />
