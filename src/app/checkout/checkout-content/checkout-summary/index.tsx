@@ -46,7 +46,7 @@ export default async function CheckoutSummary() {
   const { items, summary }: BasketData = await getBasketData();
 
   return (
-    <div className="w-full rounded-lg border border-neutral-200 bg-white p-4 md:p-8 xl:max-w-[528px]">
+    <div className="flex w-full flex-col rounded-lg border border-neutral-200 bg-white p-4 md:p-8 xl:max-w-[528px]">
       <h2 className="text-xl font-semibold leading-7 text-neutral-900">
         Order Summary
       </h2>
@@ -104,11 +104,17 @@ export default async function CheckoutSummary() {
           <span>{summary.total}</span>
         </div>
       </div>
-      <div className="flex items-center justify-between py-8">
+      <div className="mt-auto flex items-center justify-between py-8">
         <p>Total</p>
         <span>{summary.total}</span>
       </div>
-      <Button variant="primary" size="medium" className="w-full">
+      <Button
+        type="submit"
+        form="checkout-form"
+        variant="primary"
+        size="medium"
+        className="w-full"
+      >
         <Lock width={16} height={16} />
         Confirm Order
       </Button>
