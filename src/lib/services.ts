@@ -104,3 +104,11 @@ export const applyCoupon = async (coupon: string) => {
     throw new Error(e.message || "An unexpected error occurred");
   }
 };
+
+export const getBasketData = async () => {
+  let url =
+    "https://www.greatfrontend.com/api/projects/challenges/e-commerce/cart-sample";
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+};
