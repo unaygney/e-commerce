@@ -128,3 +128,8 @@ export interface Collections {
   image_url: string;
   created_at: string;
 }
+export interface Coupon {
+  coupon_code: string;
+  discount_amount: number | null;
+  discount_percentage: null | number;
+}
