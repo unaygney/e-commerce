@@ -5,6 +5,7 @@ import ProductsGrid from "@/components/products-grid";
 import Link from "next/link";
 import CollectionsGridSection from "@/components/collections-grid-section";
 import Features from "@/components/features";
+import { buttonVariants } from "@/components/button";
 
 export default async function Home() {
   const products = await getProducs();
@@ -18,7 +19,14 @@ export default async function Home() {
             Latest Arrivals
           </h3>
         }
-        rightComponent={<Link href="/shop-all">View All</Link>}
+        rightComponent={
+          <Link
+            className={buttonVariants({ variant: "secondary", size: "medium" })}
+            href="/shop-all"
+          >
+            View All
+          </Link>
+        }
         products={products}
       />
       <CollectionsGridSection collections={collections} />
