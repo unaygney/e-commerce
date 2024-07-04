@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/button";
+import { Button, buttonVariants } from "@/components/button";
 import { Bill } from "@/components/icons";
 import { Input } from "@/components/input";
 import { Label } from "@/components/label";
@@ -9,7 +9,8 @@ import { X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Coupon } from "@/lib/definitions";
 import { Badge } from "@/components/badge";
-
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 export default function OrderSummary({
   summary,
 }: {
@@ -36,7 +37,7 @@ export default function OrderSummary({
       }
     },
     onError: (error: any) => {
-      console.error("Başarısız", error.message);
+      console.error("Failed fetching data", error.message);
     },
   });
 
@@ -165,9 +166,15 @@ export default function OrderSummary({
             ${total.toFixed(2)}
           </span>
         </div>
-        <Button size="medium" variant="primary" className="w-full font-medium">
+        <Link
+          href={"/checkout"}
+          className={cn(
+            buttonVariants({ variant: "primary", size: "medium" }),
+            "w-full font-medium",
+          )}
+        >
           Checkout
-        </Button>
+        </Link>
       </div>
     </div>
   );
