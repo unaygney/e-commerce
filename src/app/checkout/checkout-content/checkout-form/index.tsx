@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function CheckoutForm() {
   const {
@@ -34,19 +34,20 @@ export default function CheckoutForm() {
     queryFn: async () => await getAllCountries(),
   });
 
-  const { data: provinces } = useQuery({
-    queryKey: ["provinces"],
-    queryFn: async () => await getProvincesByCounty("turkey"),
-  });
+  const [provinces, setProvinces] = useState([]);
+  const selectedCountry = watch("country");
+
+  useEffect(() => {
+    if (selectedCountry) {
+      getProvincesByCounty(selectedCountry).then((data) => setProvinces(data));
+    } else {
+      setProvinces([]);
+    }
+  }, [selectedCountry]);
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
     console.log(data);
   };
-
-  useEffect(() => {
-    const formData = watch();
-    console.log(formData);
-  });
 
   return (
     <form
@@ -140,6 +141,7 @@ export default function CheckoutForm() {
                         ) : name === "city" ? (
                           <Select
                             onValueChange={(value) => setValue("city", value)}
+                            disabled={!selectedCountry}
                           >
                             <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select a city" />
