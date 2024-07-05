@@ -112,3 +112,38 @@ export const getBasketData = async () => {
   const data = await response.json();
   return data;
 };
+
+export const getAllCountries = async () => {
+  const url = "https://countriesnow.space/api/v0.1/countries/states";
+  const response = await fetch(url);
+  const data = await response.json();
+
+  if (!response.ok) {
+    console.log(data);
+    throw new Error(data.error || "Something went wrong");
+  }
+
+  const countries = data.data.map((country: { name: string }) => {
+    return country.name;
+  });
+
+  return countries;
+};
+
+export const getProvincesByCounty = async (country: string) => {
+  let url = "https://countriesnow.space/api/v0.1/countries";
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("An unexpected error occurred");
+  }
+
+  const data = await response.json();
+
+  const provinces = data.data.find(
+    (p: any) => p.country.toUpperCase() === country.toUpperCase(),
+  );
+
+  return provinces.cities;
+};
