@@ -96,17 +96,19 @@ export default async function CheckoutSummary() {
       </div>
       <div className="flex flex-col gap-4 border-b border-dashed border-neutral-300 py-8">
         <div className="flex items-center justify-between">
-          <p>Subtotal</p>
-          <span>{summary.subtotal}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <p>Total</p>
-          <span>{summary.total}</span>
+          <p className="text-base font-normal leading-6 text-neutral-600">
+            Subtotal
+          </p>
+          <span className="text-right text-lg font-semibold leading-7 text-neutral-900">
+            ${summary.subtotal}
+          </span>
         </div>
       </div>
       <div className="mt-auto flex items-center justify-between py-8">
-        <p>Total</p>
-        <span>{summary.total}</span>
+        <p className="text-2xl font-medium leading-8 text-neutral-900">Total</p>
+        <span className="text-right text-4xl font-semibold leading-10 text-neutral-900">
+          ${summary.total}
+        </span>
       </div>
       <Button
         type="submit"
