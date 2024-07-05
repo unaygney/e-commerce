@@ -167,6 +167,9 @@ export interface FormInput {
   id: number;
   title: string;
   fields: Field[];
+  deliveryMethod?: string;
+  country?: string;
+  city?: string;
 }
 
 interface Field {

@@ -4,14 +4,49 @@ import { FORM_INPUT, FormInput } from "./constant";
 import { Label } from "@/components/label";
 import { Input } from "@/components/input";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { checkoutFormSchema } from "@/lib/validations";
+import { Check } from "lucide-react";
+import { getAllCountries, getProvincesByCounty } from "@/lib/services";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useEffect } from "react";
 
 export default function CheckoutForm() {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
-  } = useForm<FormInput>();
-  const onSubmit: SubmitHandler<FormInput> = (data) => console.log(data);
+  } = useForm<FormInput>({
+    resolver: zodResolver(checkoutFormSchema),
+  });
+
+  const { data: countries } = useQuery({
+    queryKey: ["countries"],
+    queryFn: async () => await getAllCountries(),
+  });
+
+  const { data: provinces } = useQuery({
+    queryKey: ["provinces"],
+    queryFn: async () => await getProvincesByCounty("turkey"),
+  });
+
+  const onSubmit: SubmitHandler<FormInput> = (data) => {
+    console.log(data);
+  };
+
+  useEffect(() => {
+    const formData = watch();
+    console.log(formData);
+  });
 
   return (
     <form
@@ -49,12 +84,18 @@ export default function CheckoutForm() {
                         {...register(name as keyof FormInput, { required })}
                         className={className}
                       />
+                      {errors[name as keyof FormInput] && (
+                        <p className="text-sm font-normal leading-5 text-red-600">
+                          {errors[name as keyof FormInput]?.message}
+                        </p>
+                      )}
                     </div>
                   ),
                 )}
               </div>
             );
-          } else if (title === "Shipping Information") {
+          }
+          if (title === "Shipping Information") {
             return (
               <div
                 key={id}
@@ -79,20 +120,61 @@ export default function CheckoutForm() {
                         className={cn(`flex flex-col gap-1.5`, className)}
                       >
                         <Label htmlFor={name}>{label}</Label>
-                        <Input
-                          id={name}
-                          type={type}
-                          placeholder={placeholder}
-                          className="h-10"
-                          {...register(name as keyof FormInput, { required })}
-                        />
+                        {name === "country" ? (
+                          <Select
+                            onValueChange={(value) =>
+                              setValue("country", value)
+                            }
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select a country" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {countries?.map((country: any, i: number) => (
+                                <SelectItem key={i} value={country}>
+                                  {country}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        ) : name === "city" ? (
+                          <Select
+                            onValueChange={(value) => setValue("city", value)}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select a city" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {provinces?.map((city: any, i: number) => (
+                                <SelectItem key={i} value={city}>
+                                  {city}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        ) : (
+                          <Input
+                            id={name}
+                            type={type}
+                            placeholder={placeholder}
+                            className="h-10"
+                            {...register(name as keyof FormInput, { required })}
+                          />
+                        )}
+
+                        {errors[name as keyof FormInput] && (
+                          <p className="text-sm font-normal leading-5 text-red-600">
+                            {errors[name as keyof FormInput]?.message}
+                          </p>
+                        )}
                       </div>
                     ),
                   )}
                 </div>
               </div>
             );
-          } else if (title === "Delivery Method") {
+          }
+          if (title === "Delivery Method") {
             return (
               <div
                 key={id}
@@ -101,31 +183,51 @@ export default function CheckoutForm() {
                 <h2 className="text-lg font-medium leading-7 text-neutral-600">
                   {title}
                 </h2>
-                {fields.map(
-                  ({
-                    id,
-                    label,
-                    name,
-                    type,
-                    placeholder,
-                    required,
-                    className,
-                  }) => (
-                    <div key={id} className="flex flex-col gap-1.5">
-                      <Label htmlFor={name}>{label}</Label>
-                      <Input
+                <div className="flex flex-col gap-4 md:flex-row">
+                  {fields.map(({ id, label, name, placeholder, price }) => (
+                    <div
+                      key={id}
+                      className="relative flex flex-1 flex-col gap-1.5"
+                    >
+                      <input
                         id={name}
-                        type={type}
-                        placeholder={placeholder}
-                        {...register(name as keyof FormInput, { required })}
-                        className={className}
+                        type="radio"
+                        value={name}
+                        defaultChecked={id === 0}
+                        className="peer absolute opacity-0"
+                        {...register("deliveryMethod")}
                       />
+                      <Label
+                        htmlFor={name}
+                        className={cn(
+                          "relative flex h-[120px] flex-col rounded-lg border-2 border-neutral-200 p-4 hover:bg-[#fafafa]",
+                          "peer-checked:border-indigo-700",
+                        )}
+                      >
+                        <p className="text-base font-medium capitalize leading-6 text-neutral-900">
+                          {label}
+                        </p>
+                        <p className="text-sm font-normal leading-7 text-neutral-600">
+                          {placeholder}
+                        </p>
+                        <span className="mt-auto text-base font-medium uppercase leading-6">
+                          {price === null ? "Free" : `$${price}`}
+                        </span>
+                      </Label>
+                      <span
+                        className={cn(
+                          "absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#6366F1] opacity-0 peer-checked:opacity-100",
+                        )}
+                      >
+                        <Check className="h-5 w-5 text-white" />
+                      </span>
                     </div>
-                  ),
-                )}
+                  ))}
+                </div>
               </div>
             );
-          } else if (title === "Payment Method") {
+          }
+          if (title === "Payment Method") {
             return (
               <div
                 key={id}
@@ -157,6 +259,11 @@ export default function CheckoutForm() {
                           className="h-10"
                           {...register(name as keyof FormInput, { required })}
                         />
+                        {errors[name as keyof FormInput] && (
+                          <p className="text-sm font-normal leading-5 text-red-600">
+                            {errors[name as keyof FormInput]?.message}
+                          </p>
+                        )}
                       </div>
                     ),
                   )}
