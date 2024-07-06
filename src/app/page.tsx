@@ -13,22 +13,27 @@ export default async function Home() {
   return (
     <Container>
       <Hero />
-      <ProductsGrid
-        leftComponent={
-          <h3 className="text-2xl font-semibold leading-8 text-neutral-900 md:text-3xl">
-            Latest Arrivals
-          </h3>
-        }
-        rightComponent={
-          <Link
-            className={buttonVariants({ variant: "secondary", size: "medium" })}
-            href="/shop-all"
-          >
-            View All
-          </Link>
-        }
-        products={products}
-      />
+      <div className="px-3 py-12 md:px-4 md:py-16 xl:p-24">
+        <ProductsGrid
+          leftComponent={
+            <h3 className="text-2xl font-semibold leading-8 text-neutral-900 md:text-3xl">
+              Latest Arrivals
+            </h3>
+          }
+          rightComponent={
+            <Link
+              className={buttonVariants({
+                variant: "secondary",
+                size: "medium",
+              })}
+              href="/shop-all"
+            >
+              View All
+            </Link>
+          }
+          products={products}
+        />
+      </div>
       <CollectionsGridSection collections={collections} />
       <Features />
     </Container>

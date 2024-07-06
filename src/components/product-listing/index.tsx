@@ -22,6 +22,9 @@ import { FILTER_OPTIONS, SORT_OPTIONS } from "./constant";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../label";
 import Rating from "@mui/material/Rating";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export default function ProductListing({ products }: { products: any }) {
   const [isActive, setActive] = React.useState<boolean>(false);
@@ -52,8 +55,19 @@ export default function ProductListing({ products }: { products: any }) {
 }
 
 function SortButton() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const handleSortChange = (value: string) => {
+    const currentParams = new URLSearchParams(searchParams.toString());
+    currentParams.set("sort", value);
+
+    router.replace(`${pathname}?${currentParams.toString()}`);
+  };
+
   return (
-    <Select>
+    <Select onValueChange={handleSortChange}>
       <SelectTrigger
         className={
           "ml-auto h-10 w-[103px] text-sm font-medium leading-5 text-neutral-900 shadow"

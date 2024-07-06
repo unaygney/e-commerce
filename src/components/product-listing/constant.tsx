@@ -1,9 +1,8 @@
 export const SORT_OPTIONS: Sort[] = [
-  { value: "newest", label: "Newest" },
-  { value: "best-rating", label: "Best rating" },
-  { value: "most-popular", label: "Most popular" },
-  { value: "price-low-to-high", label: "Price: Low to high" },
-  { value: "price-high-to-low", label: "Price: High to low" },
+  { value: "created", label: "Newest" },
+  { value: "rating", label: "Best rating" },
+  { value: "popularity", label: "Most popular" },
+  { value: "price", label: "Price: High to low" },
 ];
 
 export const FILTER_OPTIONS: FilterTabProps[] = [

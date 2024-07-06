@@ -18,7 +18,7 @@ export default function ProductsGrid({
   className?: string;
 }) {
   return (
-    <section className="flex w-full flex-col gap-8 bg-transparent px-3 py-12 shadow-sm md:px-4 md:py-16 xl:p-24">
+    <section className="flex w-full flex-col gap-8 bg-transparent">
       <div className="flex items-center justify-between">
         {leftComponent && leftComponent}
         {rightComponent && rightComponent}
