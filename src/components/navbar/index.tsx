@@ -117,7 +117,12 @@ function MobileNav({
         </div>
         <div className="mt-6 flex flex-col gap-4">
           {LINKS.map(({ href, id, title }) => (
-            <Link className="link-gray-md truncate" href={href} key={id}>
+            <Link
+              onClick={() => setOpen(false)}
+              className="link-gray-md truncate"
+              href={href}
+              key={id}
+            >
               {title}
             </Link>
           ))}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useClickAway } from "@uidotdev/usehooks";
 import { cn } from "@/lib/utils";
 import {
@@ -14,7 +14,6 @@ import { Label } from "@/components/label";
 import Rating from "@mui/material/Rating";
 import { X } from "@/components/icons";
 import { StarIcon } from "lucide-react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 const FilterCard = ({
   className,
@@ -25,58 +24,9 @@ const FilterCard = ({
   isActive: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-
-  const [filters, setFilters] = useState<{
-    [key: string]: (string | number)[];
-  }>({});
-
   const ref: any = useClickAway(() => {
     setActive(false);
   });
-
-  const handleFilterChange = (
-    key: string,
-    value: string | number,
-    checked: boolean,
-  ) => {
-    setFilters((prevFilters) => {
-      const updatedFilters = { ...prevFilters };
-      if (checked) {
-        if (!updatedFilters[key]) {
-          updatedFilters[key] = [];
-        }
-        updatedFilters[key].push(value);
-      } else {
-        if (updatedFilters[key]) {
-          updatedFilters[key] = updatedFilters[key].filter((v) => v !== value);
-          if (updatedFilters[key].length === 0) {
-            delete updatedFilters[key];
-          }
-        }
-      }
-      return updatedFilters;
-    });
-  };
-
-  const isChecked = (key: string, value: string | number) => {
-    return filters[key]?.includes(value) ?? false;
-  };
-
-  useEffect(() => {
-    const currentParams = new URLSearchParams(searchParams.toString());
-    Object.keys(filters).forEach((key) => {
-      currentParams.delete(key);
-      filters[key].forEach((value) => {
-        currentParams.append(key, value.toString());
-      });
-    });
-    router.replace(`${pathname}?${currentParams.toString()}`);
-  }, [filters, router, pathname, searchParams]);
-
-  console.log("filters", filters);
 
   return (
     <aside
@@ -106,15 +56,7 @@ const FilterCard = ({
                     <div key={id} className="flex items-center gap-3">
                       <Checkbox
                         id={value.toString()}
-                        value={value.toString()}
-                        checked={isChecked(tab_title.toLowerCase(), value)}
-                        onChange={(e) =>
-                          handleFilterChange(
-                            tab_title.toLowerCase(),
-                            value,
-                            (e.target as HTMLInputElement).checked,
-                          )
-                        }
+                        value={value}
                         className="checked:bg-indigo-600 data-[state=checked]:border-none data-[state=checked]:bg-indigo-600"
                       />
                       <Label
@@ -128,7 +70,8 @@ const FilterCard = ({
                 </AccordionContent>
               </AccordionItem>
             );
-          } else if (tab_title === "Colors") {
+          }
+          if (tab_title === "Colors") {
             return (
               <AccordionItem key={id} value={tab_title}>
                 <AccordionTrigger>{tab_title}</AccordionTrigger>
@@ -139,17 +82,9 @@ const FilterCard = ({
                         className="rounded-full border-neutral-200"
                         key={id}
                         id={value.toString()}
-                        checked={isChecked("color", value)}
                         style={{
                           backgroundColor: color,
                         }}
-                        onChange={(e) =>
-                          handleFilterChange(
-                            "color",
-                            value,
-                            (e.target as HTMLInputElement).checked,
-                          )
-                        }
                       />
                       <Label
                         className="text-base font-normal leading-6 text-neutral-600"
@@ -162,7 +97,8 @@ const FilterCard = ({
                 </AccordionContent>
               </AccordionItem>
             );
-          } else if (tab_title === "Rating") {
+          }
+          if (tab_title === "Rating") {
             return (
               <AccordionItem key={id} value={tab_title}>
                 <AccordionTrigger>{tab_title}</AccordionTrigger>
@@ -172,15 +108,7 @@ const FilterCard = ({
                       <Checkbox
                         key={id}
                         id={value.toString()}
-                        checked={isChecked("rating", value)}
                         className="invisible opacity-0"
-                        onChange={(e) =>
-                          handleFilterChange(
-                            "rating",
-                            value,
-                            (e.target as HTMLInputElement).checked,
-                          )
-                        }
                       />
                       <Label
                         className="cursor-pointer"

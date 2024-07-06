@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import ProductsGrid from "../products-grid";
 import { Button } from "../button";
@@ -11,10 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { cn } from "@/lib/utils";
 import { SORT_OPTIONS } from "./constant";
-
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useSearchParams } from "next/navigation";
@@ -24,7 +21,7 @@ export default function ProductListing({ products }: { products: any }) {
   const [isActive, setActive] = React.useState<boolean>(false);
 
   return (
-    <section className="relative mx-auto flex h-full w-full bg-white py-12 md:py-16 xl:flex-row xl:gap-16 xl:p-24">
+    <section className="relative mx-auto flex h-full w-full rounded-lg bg-white px-3 py-12 md:px-4 md:py-16 xl:flex-row xl:gap-16 xl:p-24">
       <FilterCard isActive={isActive} setActive={setActive} />
       <ProductsGrid
         className="xl:grid-cols-3"
