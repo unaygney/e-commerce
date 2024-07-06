@@ -43,7 +43,11 @@ function ProductCard({
       )}
     >
       {products?.map((product, i) => (
-        <Link href={product.product_id} key={i} className="group flex flex-col">
+        <Link
+          href={`/product/${product.product_id}`}
+          key={i}
+          className="group flex flex-col"
+        >
           <div className="relative h-[300px] w-full overflow-hidden rounded-lg">
             <Image
               src={product.images[0].image_url}

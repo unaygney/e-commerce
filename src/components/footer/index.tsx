@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Logo } from "../icons";
 import Link from "next/link";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { subscribeEmail } from "@/lib/services";
+import { subscribeEmail } from "./actions";
 import { useToast } from "../ui/use-toast";
 
 export default function Footer() {
@@ -40,12 +40,16 @@ function Newsletter() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["postEmail"] });
       toast({
-        description: data.error ? data.error : data.message,
+        description: data.message ? data.message : "Subscription successful",
       });
       setTimeout(() => setEmail(""), 2000);
     },
     onError: (error) => {
-      console.error("Error:", error);
+      toast({
+        description: error.message
+          ? error.message
+          : "An unexpected error occurred",
+      });
     },
   });
 
@@ -63,6 +67,7 @@ function Newsletter() {
         <input
           type="string"
           placeholder="Enter your email"
+          required
           value={email}
           onChange={handleEmailChange}
           className="h-10 w-full text-ellipsis rounded border border-neutral-200 bg-neutral-50 px-3.5 py-2.5 text-sm leading-5 placeholder:text-neutral-500"

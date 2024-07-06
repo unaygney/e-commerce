@@ -10,6 +10,8 @@ import { StarIcon } from "lucide-react";
 import { formatDate, getInitials, getRatingText } from "@/lib/helper";
 import { Progress } from "@/components/ui/progress";
 import { Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+
 //utils and services
 import { cn } from "@/lib/utils";
 import { DialogDescription } from "@/components/ui/dialog";
@@ -26,14 +28,48 @@ export default function ProductReview({
     useInfiniteQuery({
       queryKey: ["reviews", productName],
       queryFn: async ({ pageParam = 1 }) =>
-        await getProductReview("voyager-hoodie", { page: pageParam }),
+        await getProductReview(productName, { page: pageParam }),
       getNextPageParam: (lastPage) =>
         lastPage.pagination.has_more ? lastPage.pagination.page + 1 : undefined,
       initialPageParam: 1,
     });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex flex-col gap-10 lg:flex-row lg:gap-8">
+        <div className="flex w-full flex-col gap-5 xl:max-w-[384px]">
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
+        </div>
+
+        <div className="flex h-full flex-1 flex-col gap-1 md:gap-4">
+          <div className="flex flex-col space-y-3">
+            <Skeleton className="h-[70px] w-full rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+          </div>
+          <div className="flex flex-col space-y-3">
+            <Skeleton className="h-[70px] w-full rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+          </div>
+          <div className="flex flex-col space-y-3">
+            <Skeleton className="h-[70px] w-full rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const allReviews = data?.pages.flatMap((page) => page.data) ?? [];

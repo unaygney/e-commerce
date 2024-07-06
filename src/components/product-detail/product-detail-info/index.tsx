@@ -43,7 +43,14 @@ export function ProductDetailInfo({ product }: ProductDetailProps) {
 }
 
 function ProductHeader({ product }: ProductDetailProps) {
-  const { name, description, reviews = 0, rating, inventory } = product;
+  const {
+    name,
+    description,
+    reviews = 0,
+    rating,
+    inventory,
+    product_id,
+  } = product;
   return (
     <div className="flex flex-col">
       <h1 className="text-3xl font-semibold leading-9 text-neutral-900 md:text-5xl md:leading-[48px]">
@@ -95,7 +102,7 @@ function ProductHeader({ product }: ProductDetailProps) {
               "h-[90vh] w-[85vw] max-w-[1008px] rounded-lg md:w-[68%] lg:h-[624px]",
             )}
           >
-            <ProductReview productName={"voyager-hoodie"} />
+            <ProductReview productName={product_id} />
           </DialogContent>
         </Dialog>
       </div>
@@ -107,7 +114,7 @@ function ProductHeader({ product }: ProductDetailProps) {
 }
 
 function ProductController({ product }: ProductDetailProps) {
-  const { inventory, colors, sizes } = product;
+  const { inventory, colors, sizes, product_id } = product;
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -132,12 +139,12 @@ function ProductController({ product }: ProductDetailProps) {
 
   const handleSelect = (color: string) => {
     setSelected(color);
-    router.replace(`/?color=${color}&size=${curSize}`);
+    router.replace(`/product/${product_id}?color=${color}&size=${curSize}`);
   };
 
   const handleSize = (size: string) => {
     setCurSize(size);
-    router.replace(`/?color=${selected}&size=${size}`);
+    router.replace(`/product/${product_id}?color=${selected}&size=${size}`);
   };
 
   const handleIncrease = () => {
