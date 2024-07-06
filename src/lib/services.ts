@@ -7,28 +7,6 @@ interface ReviewQueryParams {
   rating?: number;
 }
 
-export async function getProductById(id: string): Promise<Product | undefined> {
-  try {
-    let url: string = `https://www.greatfrontend.com/api/projects/challenges/e-commerce/products/${id}`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const sleep = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-    await sleep(3000);
-
-    const data = await response.json();
-    return data;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 export async function getProductReview(id: string, params?: ReviewQueryParams) {
   try {
     let url = new URL(
@@ -59,24 +37,6 @@ export async function getProductReview(id: string, params?: ReviewQueryParams) {
     console.log(e);
   }
 }
-
-export const subscribeEmail = async (email: string) => {
-  const url = `https://www.greatfrontend.com/api/projects/challenges/newsletter`;
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    throw new Error("An unexpected error occurred");
-  }
-};
 
 export const applyCoupon = async (coupon: string) => {
   let url =
