@@ -133,3 +133,13 @@ export interface Coupon {
   discount_amount: number | null;
   discount_percentage: null | number;
 }
+export type GetAllProductsParams = {
+  page?: number;
+  per_page?: number;
+  collection?: string[];
+  category?: string[];
+  color?: string[];
+  rating?: number[];
+  sort?: "created" | "rating" | "popularity" | "price";
+  direction?: "asc" | "desc";
+};
