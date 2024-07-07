@@ -17,7 +17,10 @@ export const subscribeEmail = async (email: string) => {
     });
 
     if (existingSubscriber) {
-      throw new Error("This email already exists!");
+      return {
+        success: false,
+        message: "This email already exists!",
+      };
     }
 
     const newSubscription = await db.subscription.create({
@@ -32,7 +35,17 @@ export const subscribeEmail = async (email: string) => {
       subscription: newSubscription,
     };
   } catch (e: any) {
+    if (e instanceof z.ZodError) {
+      return {
+        success: false,
+        message: e.errors[0].message,
+      };
+    }
+
     console.log(e);
-    throw new Error("An unexpected error occurred");
+    return {
+      success: false,
+      message: "An unexpected error occurred",
+    };
   }
 };
