@@ -45,10 +45,11 @@ function Newsletter() {
       setTimeout(() => setEmail(""), 2000);
     },
     onError: (error) => {
+      console.log(error);
       toast({
         description: error.message
-          ? error.message
-          : "An unexpected error occurred",
+          ? "An unexpected error occurred"
+          : error.message,
       });
     },
   });
