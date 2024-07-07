@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useClickAway } from "@uidotdev/usehooks";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   Accordion,
@@ -13,7 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/label";
 import Rating from "@mui/material/Rating";
 import { X } from "@/components/icons";
-import { StarIcon } from "lucide-react";
+import { Check, StarIcon } from "lucide-react";
 
 const FilterCard = ({
   className,
@@ -27,6 +28,38 @@ const FilterCard = ({
   const ref: any = useClickAway(() => {
     setActive(false);
   });
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+
+  const handleSearchQuery = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    filterType: string,
+  ) => {
+    const { value, checked } = event.target;
+    const params = new URLSearchParams(window.location.search);
+
+    let currentValues = params.getAll(filterType);
+
+    if (checked) {
+      currentValues.push(value);
+      if (filterType === "color") {
+        setSelectedColors((prev) => [...prev, value]);
+      }
+    } else {
+      currentValues = currentValues.filter((item) => item !== value);
+      if (filterType === "color") {
+        setSelectedColors((prev) => prev.filter((color) => color !== value));
+      }
+    }
+
+    params.delete(filterType);
+    currentValues.forEach((val) => params.append(filterType, val));
+
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <aside
@@ -47,6 +80,8 @@ const FilterCard = ({
       </div>
       <Accordion type="multiple" className="w-full">
         {FILTER_OPTIONS.map(({ tab_content, tab_title, id }) => {
+          const filterType = tab_title.toLowerCase();
+
           if (tab_title === "Collections" || tab_title === "Category") {
             return (
               <AccordionItem key={id} value={tab_title}>
@@ -54,9 +89,12 @@ const FilterCard = ({
                 <AccordionContent className="flex flex-col gap-6">
                   {tab_content.map(({ title, value, id }) => (
                     <div key={id} className="flex items-center gap-3">
-                      <Checkbox
+                      <input
                         id={value.toString()}
+                        name="filter"
+                        type="checkbox"
                         value={value}
+                        onChange={(e) => handleSearchQuery(e, filterType)}
                         className="checked:bg-indigo-600 data-[state=checked]:border-none data-[state=checked]:bg-indigo-600"
                       />
                       <Label
@@ -77,21 +115,28 @@ const FilterCard = ({
                 <AccordionTrigger>{tab_title}</AccordionTrigger>
                 <AccordionContent className="flex flex-wrap gap-4">
                   {tab_content.map(({ title, value, id, color }) => (
-                    <div key={id} className="flex items-center gap-3">
-                      <Checkbox
-                        className="rounded-full border-neutral-200"
+                    <div key={id} className="relative flex items-center gap-3">
+                      <input
+                        className="absolute opacity-0"
+                        type="checkbox"
                         key={id}
                         id={value.toString()}
+                        name="filter"
+                        onChange={(e) => handleSearchQuery(e, "color")}
+                        value={value}
                         style={{
                           backgroundColor: color,
                         }}
                       />
-                      <Label
-                        className="text-base font-normal leading-6 text-neutral-600"
+                      <label
                         htmlFor={value.toString()}
+                        className="flex h-4 w-4 items-center justify-center rounded-full border border-neutral-200"
+                        style={{ backgroundColor: color }}
                       >
-                        {title}
-                      </Label>
+                        {selectedColors.includes(String(value)) && (
+                          <Check className="h-3 w-3 text-white" />
+                        )}
+                      </label>
                     </div>
                   ))}
                 </AccordionContent>
@@ -105,10 +150,14 @@ const FilterCard = ({
                 <AccordionContent className="flex flex-col gap-4">
                   {tab_content.map(({ title, value, id }) => (
                     <div key={id} className="relative">
-                      <Checkbox
+                      <input
                         key={id}
                         id={value.toString()}
+                        value={value}
                         className="invisible opacity-0"
+                        name="filter"
+                        type="checkbox"
+                        onChange={(e) => handleSearchQuery(e, "rating")}
                       />
                       <Label
                         className="cursor-pointer"

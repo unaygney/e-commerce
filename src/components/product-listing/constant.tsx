@@ -13,22 +13,22 @@ export const FILTER_OPTIONS: FilterTabProps[] = [
       {
         id: 0,
         title: "Latest arrivals",
-        value: "latest-arrivals",
+        value: "latest",
       },
       {
         id: 1,
         title: "Urban Oasis",
-        value: "urban-oasis",
+        value: "urban",
       },
       {
         id: 2,
         title: "Cozy Comfort",
-        value: "cozy-comfort",
+        value: "cozy",
       },
       {
         id: 3,
         title: "Fresh Fusion",
-        value: "fresh-fusion",
+        value: "fresh",
       },
     ],
   },
