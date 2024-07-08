@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import {
   Dialog,
   DialogClose,
@@ -13,6 +12,7 @@ import {
 
 import { Button } from "@/components/button";
 import { Minus, Plus } from "lucide-react";
+import { deleteProduct } from "@/app/basket/actions";
 
 export default function ProductList({ basket }: { basket: any }) {
   return (
@@ -26,6 +26,7 @@ export default function ProductList({ basket }: { basket: any }) {
 
 function ProductItem({ item }: { item: any }) {
   const { product, unit, total_list_price, total_sale_price, quantity } = item;
+
   return (
     <div className="flex flex-col gap-4 border-dashed border-neutral-200 pb-8 md:flex-row [&:not(:last-child)]:border-b">
       <div className="relative h-[200px] w-full overflow-hidden rounded-lg md:w-[280px]">
@@ -86,14 +87,18 @@ function ProductItem({ item }: { item: any }) {
                     Close
                   </Button>
                 </DialogClose>
-                <Button
-                  className="flex-1"
-                  type="button"
-                  variant="primary"
-                  size="medium"
-                >
-                  Yes
-                </Button>
+
+                <form className="md:w-[50%]" action={deleteProduct}>
+                  <input name="product_id" value={item.id} type="hidden" />
+                  <Button
+                    className="w-full"
+                    type="submit"
+                    variant="primary"
+                    size="medium"
+                  >
+                    Yes
+                  </Button>
+                </form>
               </DialogFooter>
             </DialogContent>
           </Dialog>
