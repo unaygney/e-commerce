@@ -7,10 +7,11 @@ import { useSearchParams } from "next/navigation";
 import { Rating } from "@mui/material";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
-import { StarIcon, CheckIcon, Minus, Plus } from "lucide-react";
+import { StarIcon, CheckIcon, Minus, Plus, Loader2 } from "lucide-react";
 import { RadioGroup } from "@headlessui/react";
 import ProductReview from "@/components/product-review";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+
 import {
   Accordion,
   AccordionContent,
@@ -27,6 +28,8 @@ import {
 import { cn } from "@/lib/utils";
 import { Product } from "@/lib/definitions";
 import { adjustSize } from "@/lib/helper";
+import { addProductToCart } from "@/app/product/[id]/actions";
+import { useFormStatus } from "react-dom";
 
 interface ProductDetailProps {
   product: Product;
@@ -278,9 +281,15 @@ function ProductController({ product }: ProductDetailProps) {
           </TooltipProvider>
         </div>
       </div>
-      <Button disabled={itemStock?.stock === 0} variant="primary" size="large">
-        Add to Cart
-      </Button>
+
+      <form action={addProductToCart}>
+        <input type="hidden" name="product_id" value={product_id} />
+        <input type="hidden" name="color" value={selected} />
+        <input type="hidden" name="size" value={curSize} />
+        <input type="hidden" name="quantity" value={quantity} />
+
+        <AddToCart itemStock={itemStock} />
+      </form>
     </>
   );
 }
@@ -315,5 +324,21 @@ function ProductInfo({ product }: ProductDetailProps) {
         ),
       )}
     </Accordion>
+  );
+}
+
+function AddToCart({ itemStock }: { itemStock: any }) {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      disabled={itemStock?.stock === 0 || pending}
+      className="w-full"
+      type="submit"
+      variant="primary"
+      size="large"
+    >
+      {pending && <Loader2 className="animate-spin" />}
+      Add to Cart
+    </Button>
   );
 }
