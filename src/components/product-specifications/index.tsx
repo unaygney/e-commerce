@@ -78,7 +78,7 @@ function ProductInformation() {
                 />
               </div>
 
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-8 xl:flex-1">
                 <div className="flex flex-col gap-2">
                   <h3 className="text-2xl font-medium leading-8 text-neutral-900">
                     {content_title}

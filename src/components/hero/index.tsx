@@ -20,7 +20,7 @@ export default function Hero() {
           world&apos;s harsh elements.
         </p>
         <Link
-          href="#"
+          href="/shop-all"
           className={cn(
             buttonVariants({ variant: "primary", size: "medium" }),
             "mt-4 w-[151.5px] md:mt-12",

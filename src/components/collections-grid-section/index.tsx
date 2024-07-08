@@ -2,7 +2,7 @@ import { Collections } from "@/lib/definitions";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
-
+import Link from "next/link";
 export default async function CollectionsGridSection({
   collections,
 }: {
@@ -34,12 +34,12 @@ function PrimaryCard({
   className?: string;
   props?: React.HTMLProps<HTMLDivElement>;
 }) {
-  const { image_url, description, name } = data;
+  const { image_url, description, name, collection_id } = data;
   return (
-    <div
-      {...props}
+    <Link
+      href={`/shop-all?collection=${collection_id}`}
       className={cn(
-        "relative h-[580px] w-full overflow-hidden rounded-lg border-gray-800",
+        "group relative h-[580px] w-full overflow-hidden rounded-lg border-gray-800",
         className,
       )}
     >
@@ -50,9 +50,11 @@ function PrimaryCard({
       />
       <div className="absolute bottom-4 left-4 z-10 flex flex-col text-white">
         <h5 className="text-sm font-normal leading-5">{name}</h5>
-        <p className="text-lg font-medium leading-7">{description}</p>
+        <p className="text-lg font-medium leading-7 group-hover:text-indigo-50">
+          {description}
+        </p>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -65,12 +67,12 @@ function SecondaryCard({
   className?: string;
   props?: React.HTMLProps<HTMLDivElement>;
 }) {
-  const { image_url, description, name } = data;
+  const { image_url, description, name, collection_id } = data;
   return (
-    <div
-      {...props}
+    <Link
+      href={`/shop-all?collection=${collection_id}`}
       className={cn(
-        "relative h-[380px] w-full overflow-hidden rounded-lg border-gray-800 md:h-[276px]",
+        "group relative h-[380px] w-full overflow-hidden rounded-lg border-gray-800 md:h-[276px]",
         className,
       )}
     >
@@ -81,8 +83,10 @@ function SecondaryCard({
       />
       <div className="absolute bottom-4 left-4 z-10 flex flex-col text-white">
         <h5 className="text-sm font-normal leading-5">{name}</h5>
-        <p className="text-lg font-medium leading-7">{description}</p>
+        <p className="text-lg font-medium leading-7 group-hover:text-indigo-50">
+          {description}
+        </p>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -10,7 +10,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FILTER_OPTIONS } from "../constant";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/label";
 import Rating from "@mui/material/Rating";
 import { X } from "@/components/icons";
@@ -50,9 +49,6 @@ const FilterCard = ({
       }
     } else {
       currentValues = currentValues.filter((item) => item !== value);
-      if (filterType === "color") {
-        setSelectedColors((prev) => prev.filter((color) => color !== value));
-      }
     }
 
     params.delete(filterType);
@@ -82,7 +78,7 @@ const FilterCard = ({
         {FILTER_OPTIONS.map(({ tab_content, tab_title, id }) => {
           const filterType = tab_title.toLowerCase();
 
-          if (tab_title === "Collections" || tab_title === "Category") {
+          if (tab_title === "Collections") {
             return (
               <AccordionItem key={id} value={tab_title}>
                 <AccordionTrigger>{tab_title}</AccordionTrigger>
@@ -94,7 +90,34 @@ const FilterCard = ({
                         name="filter"
                         type="checkbox"
                         value={value}
-                        onChange={(e) => handleSearchQuery(e, filterType)}
+                        onChange={(e) => handleSearchQuery(e, "collection")}
+                        className="checked:bg-indigo-600 data-[state=checked]:border-none data-[state=checked]:bg-indigo-600"
+                      />
+                      <Label
+                        className="text-base font-normal leading-6 text-neutral-600"
+                        htmlFor={value.toString()}
+                      >
+                        {title}
+                      </Label>
+                    </div>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            );
+          }
+          if (tab_title === "Category") {
+            return (
+              <AccordionItem key={id} value={tab_title}>
+                <AccordionTrigger>{tab_title}</AccordionTrigger>
+                <AccordionContent className="flex flex-col gap-6">
+                  {tab_content.map(({ title, value, id }) => (
+                    <div key={id} className="flex items-center gap-3">
+                      <input
+                        id={value.toString()}
+                        name="filter"
+                        type="checkbox"
+                        value={value}
+                        onChange={(e) => handleSearchQuery(e, "category")}
                         className="checked:bg-indigo-600 data-[state=checked]:border-none data-[state=checked]:bg-indigo-600"
                       />
                       <Label

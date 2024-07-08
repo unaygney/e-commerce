@@ -5,6 +5,9 @@ import { toBase64 } from "@/lib/helper";
 import { Shimmer } from "../icons";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Shirt } from "lucide-react";
+import { Button } from "../button";
+import { useRouter } from "next/navigation";
 
 export default function ProductsGrid({
   products,
@@ -23,7 +26,7 @@ export default function ProductsGrid({
         {leftComponent && leftComponent}
         {rightComponent && rightComponent}
       </div>
-      <ProductCard className={className} products={products?.data} />
+      <ProductCard className={className} products={products} />
     </section>
   );
 }
@@ -35,6 +38,30 @@ function ProductCard({
   products: any[];
   className?: string;
 }) {
+  const router = useRouter();
+
+  const resetFilters = () => {
+    router.replace("/shop-all");
+  };
+
+  if (products.length === 0)
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center gap-5 bg-transparent p-6">
+        <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-indigo-700 shadow">
+          <Shirt width={24} height={24} />
+        </span>
+        <h1 className="text-xl font-semibold leading-6 text-neutral-900">
+          No products found
+        </h1>
+        <p className="text-base font-normal leading-6 text-neutral-900">
+          Adjust your filters a bit, and let&apos;s see what we can find!
+        </p>
+        <Button variant="primary" size="medium" onClick={resetFilters}>
+          Reset filters
+        </Button>
+      </div>
+    );
+
   return (
     <div
       className={cn(

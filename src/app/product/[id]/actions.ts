@@ -16,3 +16,16 @@ export async function getProductById(id: string): Promise<Product | undefined> {
     console.log(e);
   }
 }
+
+export async function getCollectionById(collection_id: string) {
+  let url = `https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=${collection_id}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    return [];
+  }
+
+  const data = await response.json();
+  return data;
+}

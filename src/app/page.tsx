@@ -10,6 +10,7 @@ import { buttonVariants } from "@/components/button";
 export default async function Home() {
   const products = await getProducs();
   const collections = await getCollections();
+
   return (
     <Container>
       <Hero />
@@ -31,7 +32,7 @@ export default async function Home() {
               View All
             </Link>
           }
-          products={products}
+          products={products?.data.slice(0, 8)}
         />
       </div>
       <CollectionsGridSection collections={collections} />
@@ -42,7 +43,7 @@ export default async function Home() {
 
 const getProducs = async () => {
   const response = await fetch(
-    "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products?collection=latest",
+    "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products",
   );
   const data = await response.json();
   return data;

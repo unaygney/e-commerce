@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import FilterCard from "./filter-card";
+import { PaginationDemo } from "./pagination";
 
 export default function ProductListing({ products }: { products: any }) {
   const [isActive, setActive] = React.useState<boolean>(false);
@@ -23,18 +24,21 @@ export default function ProductListing({ products }: { products: any }) {
   return (
     <section className="relative mx-auto flex h-full w-full rounded-lg bg-white px-3 py-12 md:px-4 md:py-16 xl:flex-row xl:gap-16 xl:p-24">
       <FilterCard isActive={isActive} setActive={setActive} />
-      <ProductsGrid
-        className="xl:grid-cols-3"
-        leftComponent={
-          <FilterButton
-            className="xl:hidden"
-            isActive={isActive}
-            setActive={setActive}
-          />
-        }
-        rightComponent={<SortButton />}
-        products={products}
-      />
+      <div className="w-full">
+        <ProductsGrid
+          className="xl:grid-cols-3"
+          leftComponent={
+            <FilterButton
+              className="xl:hidden"
+              isActive={isActive}
+              setActive={setActive}
+            />
+          }
+          rightComponent={<SortButton />}
+          products={products?.data.slice(0, 8)}
+        />
+        <PaginationDemo pagination={products.pagination} />
+      </div>
       {isActive && (
         <div
           className="fixed inset-0 z-40 bg-black bg-opacity-50"
