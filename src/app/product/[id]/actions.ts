@@ -61,7 +61,9 @@ export async function addProductToCart(formData: FormData) {
     const unit = product.inventory.find(
       (item: any) =>
         item.color === color &&
-        (item.size?.toString() === size?.toString() || !item.size),
+        (item.size?.toString() === size?.toString() ||
+          !item.size ||
+          item.size === "std"),
     );
 
     if (!unit) {
