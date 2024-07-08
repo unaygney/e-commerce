@@ -7,6 +7,55 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Product {
+  product_id  String     @id @default(cuid())
+  name        String
+  description String
+  items       CartItem[]
+}
+
+model Unit {
+  sku        String     @id @default(cuid())
+  list_price Float
+  sale_price Float
+  size       String
+  color      String
+  stock      Int
+  image_url  String
+  cartItems  CartItem[]
+}
+
+model CartItem {
+  id               Int      @id @default(autoincrement())
+  product          Product  @relation(fields: [productId], references: [product_id])
+  unit             Unit     @relation(fields: [unitId], references: [sku])
+  total_list_price Float
+  total_sale_price Float
+  quantity         Int
+  created_at       DateTime @default(now())
+  productId        String
+  unitId           String
+  cart             Cart     @relation(fields: [cartId], references: [cart_id])
+  cartId           String
+}
+
+model Cart {
+  cart_id   String     @id @default(cuid())
+  items     CartItem[]
+  summary   Summary    @relation(fields: [summaryId], references: [id])
+  summaryId Int        @unique
+}
+
+model Summary {
+  id            Int     @id @default(autoincrement())
+  subtotal      Float
+  discount      Float
+  discount_code String?
+  shipping      Float
+  total         Float
+  cart          Cart?
+}
+
 model subscription {
   id         String   @id @default(uuid())
   email      String   @unique @db.VarChar(255)
