@@ -2,6 +2,8 @@
 import { Product } from "@/lib/definitions";
 import { cookies } from "next/headers";
 import { db } from "@/db";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function getProductById(id: string): Promise<Product | undefined> {
   try {
@@ -37,7 +39,7 @@ export async function addProductToCart(formData: FormData) {
   try {
     const cookieStore = cookies();
     let cartId = cookieStore.get("cart_id")?.value;
-    let cart;
+    let cart: { cart_id: string; summaryId: number } | null;
 
     // if cartId exists, get the cart
     if (cartId) {
@@ -172,6 +174,9 @@ export async function addProductToCart(formData: FormData) {
         },
       });
     }
+
+    revalidatePath("/product");
+    redirect(`/product/${product}`);
 
     return {
       success: true,
