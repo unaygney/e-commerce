@@ -12,7 +12,7 @@ import {
 
 import { Button } from "@/components/button";
 import { Minus, Plus } from "lucide-react";
-import { deleteProduct } from "@/app/basket/actions";
+import { deleteProduct, updateQuantity } from "@/app/basket/actions";
 
 export default function ProductList({ basket }: { basket: any }) {
   return (
@@ -57,17 +57,31 @@ function ProductItem({ item }: { item: any }) {
         </p>
 
         <div className="flex items-center gap-4 xl:mt-auto">
-          <div className="flex h-9 w-[125px] items-center justify-between gap-3 rounded-md border border-neutral-200 bg-neutral-50 p-0.5">
-            <button className="inline-flex h-5 w-5 items-center justify-center p-0.5">
+          <form
+            className="flex h-9 w-[125px] items-center justify-between gap-3 rounded-md border border-neutral-200 bg-neutral-50 p-0.5"
+            action={updateQuantity}
+          >
+            <input name="item_id" value={item.id} type="hidden" />
+            <button
+              name="action"
+              value="decrease"
+              className="inline-flex h-5 w-5 items-center justify-center p-0.5"
+              type="submit"
+            >
               <Minus width={16} height={16} />
             </button>
             <span className="text-sm font-medium leading-5 text-neutral-600">
               {quantity}
             </span>
-            <button className="inline-flex h-5 w-5 items-center justify-center p-0.5">
+            <button
+              name="action"
+              value="increase"
+              className="inline-flex h-5 w-5 items-center justify-center p-0.5"
+              type="submit"
+            >
               <Plus width={16} height={16} />
             </button>
-          </div>
+          </form>
 
           <Dialog>
             <DialogTrigger className="text-sm font-medium leading-5 text-neutral-600">

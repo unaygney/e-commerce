@@ -8,7 +8,7 @@ import { LINKS } from "./constant";
 import { cn } from "@/lib/utils";
 import { SITE_NAME } from "@/lib/constants";
 
-export default function Navbar() {
+export default function Navbar({ basketLength }: { basketLength: number }) {
   const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
@@ -61,10 +61,15 @@ export default function Navbar() {
       <DesktopNav />
 
       {/* Desktop Buttons */}
-      <div className="ml-auto hidden items-center gap-4 lg:flex">
+      <div className="relative ml-auto hidden items-center gap-4 lg:flex">
         <Button variant="linkColor">
           <Link href="/basket">
             <Basket />
+            {basketLength > 0 && (
+              <span className="absolute bottom-2 left-3 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full bg-indigo-700 text-white">
+                {basketLength}
+              </span>
+            )}
           </Link>
         </Button>
       </div>

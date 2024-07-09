@@ -9,7 +9,6 @@ import OrderSummary from "./order-summary";
 import ProductList from "./product-list";
 
 export default function ShoppingCard({ basket }: { basket: any }) {
-  console.log(basket);
   const { summary } = basket;
   if (basket.items.length < 1) return <EmptyCard />;
 
