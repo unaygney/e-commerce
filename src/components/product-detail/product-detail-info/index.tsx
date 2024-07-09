@@ -30,6 +30,7 @@ import { Product } from "@/lib/definitions";
 import { adjustSize } from "@/lib/helper";
 import { addProductToCart } from "@/app/product/[id]/actions";
 import { useFormStatus } from "react-dom";
+import AddProductForm from "./add-product-form";
 
 interface ProductDetailProps {
   product: Product;
@@ -282,14 +283,13 @@ function ProductController({ product }: ProductDetailProps) {
         </div>
       </div>
 
-      <form action={addProductToCart}>
-        <input type="hidden" name="product_id" value={product_id} />
-        <input type="hidden" name="color" value={selected} />
-        <input type="hidden" name="size" value={curSize} />
-        <input type="hidden" name="quantity" value={quantity} />
-
-        <AddToCart itemStock={itemStock} />
-      </form>
+      <AddProductForm
+        product_id={product_id}
+        selected={selected}
+        curSize={curSize}
+        quantity={quantity}
+        itemStock={itemStock}
+      />
     </>
   );
 }
@@ -324,21 +324,5 @@ function ProductInfo({ product }: ProductDetailProps) {
         ),
       )}
     </Accordion>
-  );
-}
-
-function AddToCart({ itemStock }: { itemStock: any }) {
-  const { pending } = useFormStatus();
-  return (
-    <Button
-      disabled={itemStock?.stock === 0 || pending}
-      className="w-full"
-      type="submit"
-      variant="primary"
-      size="large"
-    >
-      {pending && <Loader2 className="animate-spin" />}
-      Add to Cart
-    </Button>
   );
 }
