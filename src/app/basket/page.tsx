@@ -22,10 +22,11 @@ export default async function Basket() {
     },
   });
 
-  const basket = cart;
+  console.log(cart);
+
   return (
     <Container>
-      <ShoppingCard basket={basket} />
+      <ShoppingCard basket={cart} />
     </Container>
   );
 }
