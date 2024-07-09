@@ -38,33 +38,6 @@ export async function getProductReview(id: string, params?: ReviewQueryParams) {
   }
 }
 
-export const applyCoupon = async (coupon: string) => {
-  let url =
-    "https://www.greatfrontend.com/api/projects/challenges/e-commerce/coupons/apply";
-
-  try {
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ coupon_code: coupon }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.log(data);
-      throw new Error(data.error || "Something went wrong");
-    }
-
-    return data;
-  } catch (e: any) {
-    console.log(e);
-    throw new Error(e.message || "An unexpected error occurred");
-  }
-};
-
 export const getBasketData = async () => {
   let url =
     "https://www.greatfrontend.com/api/projects/challenges/e-commerce/cart-sample";
