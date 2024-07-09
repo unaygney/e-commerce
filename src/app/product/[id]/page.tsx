@@ -6,6 +6,18 @@ import ProductSpecifications from "@/components/product-specifications";
 import ProductsGrid from "@/components/products-grid";
 import { notFound } from "next/navigation";
 
+export async function generateStaticParams() {
+  const products = await fetch(
+    "https://www.greatfrontend.com/api/projects/challenges/e-commerce/products",
+  )
+    .then((res) => res.json())
+    .then((data) => data.data);
+
+  return products.map((product: any) => ({
+    id: product.product_id,
+  }));
+}
+
 export default async function Product({ params }: { params: { id: string } }) {
   const { id } = params;
 
