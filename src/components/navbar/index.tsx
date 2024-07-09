@@ -30,9 +30,19 @@ export default function Navbar({ basketLength }: { basketLength: number }) {
 
       {/* Mobile  Buttons */}
       <div className="flex items-center gap-4 lg:hidden">
-        <Button variant="linkColor">
-          <Basket />
-        </Button>
+        <div className="relative flex">
+          <Link
+            href={"/basket"}
+            className={buttonVariants({ variant: "linkColor" })}
+          >
+            <Basket />
+          </Link>
+          {basketLength > 0 && (
+            <span className="absolute bottom-2 left-3 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full bg-indigo-700 text-white">
+              {basketLength}
+            </span>
+          )}
+        </div>
         <Button
           className="text-gray-600"
           onClick={() => setOpen(!open)}
