@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 //* Components
 import { Rating } from "@mui/material";
 import { Badge } from "@/components/badge";
-import { Button } from "@/components/button";
 import { StarIcon, CheckIcon, Minus, Plus, Loader2 } from "lucide-react";
 import { RadioGroup } from "@headlessui/react";
 import ProductReview from "@/components/product-review";
@@ -28,8 +27,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Product } from "@/lib/definitions";
 import { adjustSize } from "@/lib/helper";
-import { addProductToCart } from "@/app/product/[id]/actions";
-import { useFormStatus } from "react-dom";
 import AddProductForm from "./add-product-form";
 
 interface ProductDetailProps {
@@ -65,9 +62,12 @@ function ProductHeader({ product }: ProductDetailProps) {
           <span className="text-3xl font-medium leading-9 text-neutral-600">
             ${inventory[0].sale_price}
           </span>
-          <span className="text-lg font-medium leading-7 text-neutral-400 line-through">
-            ${inventory[0].list_price}
-          </span>
+
+          {inventory[0].list_price !== inventory[0].sale_price && (
+            <span className="text-lg font-medium leading-7 text-neutral-400 line-through">
+              ${inventory[0].list_price}
+            </span>
+          )}
         </div>
         {inventory[0].discount && (
           <Badge variant="warning" size="medium" className="mt-2 self-start">

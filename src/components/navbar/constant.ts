@@ -7,7 +7,7 @@ export const LINKS: LinkProps[] = [
   {
     id: 1,
     title: "Latest arrivals",
-    href: "/latest-arrivals",
+    href: "/shop-all?sort=created",
   },
 ];
 

@@ -35,17 +35,17 @@ export const FOOTER_LINKS: FooterLink[] = [
       {
         id: 0,
         linkName: "Unisex",
-        link: "#",
+        link: "/shop-all?category=unisex",
       },
       {
         id: 1,
         linkName: "Men",
-        link: "#",
+        link: "/shop-all?category=men",
       },
       {
         id: 2,
         linkName: "Women",
-        link: "#",
+        link: "/shop-all?category=women",
       },
     ],
   },
@@ -56,22 +56,22 @@ export const FOOTER_LINKS: FooterLink[] = [
       {
         id: 0,
         linkName: "Latest arrivals",
-        link: "#",
+        link: "/shop-all?collection=latest",
       },
       {
         id: 1,
         linkName: "Urban Oasis",
-        link: "#",
+        link: "/shop-all?collection=urban",
       },
       {
         id: 2,
         linkName: "Cozy Comfort",
-        link: "#",
+        link: "/shop-all?collection=cozy",
       },
       {
         id: 3,
         linkName: "Fresh Fusion",
-        link: "#",
+        link: "/shop-all?collection=fresh",
       },
     ],
   },

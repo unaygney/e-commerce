@@ -10,7 +10,9 @@ import ProductList from "./product-list";
 
 export default function ShoppingCard({ basket }: { basket: any }) {
   const { summary } = basket;
-  if (basket.items.length < 1) return <EmptyCard />;
+
+  if (basket.length === 0) return <EmptyCard />;
+  if (basket?.items.length < 1) return <EmptyCard />;
 
   return (
     <section

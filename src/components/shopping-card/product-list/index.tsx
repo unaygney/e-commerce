@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/button";
 import { Minus, Plus } from "lucide-react";
 import { deleteProduct, updateQuantity } from "@/app/basket/actions";
+import { adjustSize } from "@/lib/helper";
 
 export default function ProductList({ basket }: { basket: any }) {
   return (
@@ -49,7 +50,7 @@ function ProductItem({ item }: { item: any }) {
             •
           </span>
           <span className="text-base font-medium capitalize leading-6 text-neutral-600">
-            {unit.size}
+            {unit.size === "null" ? "One size" : adjustSize(unit.size)}
           </span>
         </div>
         <p className="text-sm font-normal leading-5 text-neutral-600">
@@ -119,11 +120,13 @@ function ProductItem({ item }: { item: any }) {
 
           <div className="ml-auto flex items-center gap-2">
             <span className="text-lg font-medium leading-7 text-neutral-900">
-              ${total_list_price}
-            </span>
-            <span className="text-xs font-normal leading-4 text-neutral-600 line-through">
               ${total_sale_price}
             </span>
+            {total_list_price !== total_sale_price && (
+              <span className="text-xs font-normal leading-4 text-neutral-600 line-through">
+                ${total_list_price}
+              </span>
+            )}
           </div>
         </div>
       </div>
