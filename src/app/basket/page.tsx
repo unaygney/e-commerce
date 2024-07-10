@@ -8,21 +8,24 @@ import { cookies } from "next/headers";
 export default async function Basket() {
   const cookieStore = cookies();
   const cartId = cookieStore.get("cart_id")?.value;
+  let cart;
 
-  const cart = await db.cart.findUnique({
-    where: { cart_id: cartId },
-    include: {
-      items: {
-        include: {
-          product: true,
-          unit: true,
+  if (cartId) {
+    cart = await db.cart.findUnique({
+      where: { cart_id: cartId },
+      include: {
+        items: {
+          include: {
+            product: true,
+            unit: true,
+          },
         },
+        summary: true,
       },
-      summary: true,
-    },
-  });
+    });
+  }
 
-  console.log(cart);
+  if (!cartId) cart = [];
 
   return (
     <Container>
