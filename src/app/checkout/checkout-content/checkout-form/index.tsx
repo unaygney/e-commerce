@@ -1,14 +1,14 @@
 "use client";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { FORM_INPUT, FormInput } from "./constant";
 import { Label } from "@/components/label";
 import { Input } from "@/components/input";
-import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { checkoutFormSchema } from "@/lib/validations";
-import { Check } from "lucide-react";
+import { Check, CreditCard } from "lucide-react";
 import { getAllCountries, getProvincesByCounty } from "@/lib/services";
 import { useQuery } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -16,7 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
+import { FormInput, FORM_INPUT } from "./constant";
+import { Amex, MasterCard, UnknownCard, Visa } from "@/components/icons";
 
 export default function CheckoutForm() {
   const {
@@ -34,10 +35,10 @@ export default function CheckoutForm() {
     queryFn: async () => await getAllCountries(),
   });
 
-  const [provinces, setProvinces] = useState([]);
+  const [provinces, setProvinces] = React.useState([]);
   const selectedCountry = watch("country");
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (selectedCountry) {
       getProvincesByCounty(selectedCountry).then((data) => setProvinces(data));
     } else {
@@ -47,6 +48,51 @@ export default function CheckoutForm() {
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
     console.log(data);
+  };
+
+  const handleCVVInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const input = e.currentTarget;
+    if (input.value.length > 3) {
+      input.value = input.value.slice(0, 3);
+    }
+  };
+
+  // STATES AND HANDLERS FOR CARD NUMBER AND EXPIRY
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cardType, setCardType] = useState<
+    "visa" | "mastercard" | "amex" | "unknown"
+  >("unknown");
+
+  const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let inputValue = e.target.value.replace(/\D/g, ""); // Sadece sayıları al
+    if (inputValue.length > 16) {
+      inputValue = inputValue.slice(0, 16);
+    }
+    const formattedValue = inputValue.replace(/(\d{4})/g, "$1 ").trim();
+    setCardNumber(formattedValue);
+
+    if (inputValue.startsWith("4")) {
+      setCardType("visa");
+    } else if (inputValue.startsWith("5")) {
+      setCardType("mastercard");
+    } else if (inputValue.startsWith("3")) {
+      setCardType("amex");
+    } else {
+      setCardType("unknown");
+    }
+  };
+
+  const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let inputValue = e.target.value.replace(/\D/g, "");
+    if (inputValue.length > 4) {
+      inputValue = inputValue.slice(0, 4);
+    }
+    if (inputValue.length > 2) {
+      inputValue = inputValue.slice(0, 2) + "/" + inputValue.slice(2);
+    }
+    e.target.value = inputValue;
+    setExpiry(inputValue);
   };
 
   return (
@@ -127,7 +173,7 @@ export default function CheckoutForm() {
                               setValue("country", value)
                             }
                           >
-                            <SelectTrigger className="w-full">
+                            <SelectTrigger className="w-full bg-neutral-50 text-neutral-500 placeholder:text-neutral-500">
                               <SelectValue placeholder="Select a country" />
                             </SelectTrigger>
                             <SelectContent>
@@ -143,7 +189,7 @@ export default function CheckoutForm() {
                             onValueChange={(value) => setValue("city", value)}
                             disabled={!selectedCountry}
                           >
-                            <SelectTrigger className="w-full">
+                            <SelectTrigger className="w-full border border-neutral-200 bg-neutral-50 placeholder:text-neutral-500">
                               <SelectValue placeholder="Select a city" />
                             </SelectTrigger>
                             <SelectContent>
@@ -254,13 +300,61 @@ export default function CheckoutForm() {
                         className={cn(`flex flex-col gap-1.5`, className)}
                       >
                         <Label htmlFor={name}>{label}</Label>
-                        <Input
-                          id={name}
-                          type={type}
-                          placeholder={placeholder}
-                          className="h-10"
-                          {...register(name as keyof FormInput, { required })}
-                        />
+                        {name === "card_number" && (
+                          <Input
+                            id={name}
+                            className={`${cardType !== "unknown" ? "pl-12" : ""} no-spin h-10 appearance-none`}
+                            placeholder={placeholder}
+                            value={cardNumber}
+                            {...register(name as keyof FormInput, {
+                              required,
+                            })}
+                            onChange={handleCardNumberChange}
+                            icon={
+                              cardType === "visa" ? (
+                                <Visa width={20} height={24} />
+                              ) : cardType === "mastercard" ? (
+                                <MasterCard />
+                              ) : cardType === "amex" ? (
+                                <Amex />
+                              ) : cardType === "unknown" ? (
+                                <UnknownCard />
+                              ) : null
+                            }
+                          />
+                        )}
+
+                        {name === "name_on_card" && (
+                          <Input
+                            id={name}
+                            type={type}
+                            placeholder={placeholder}
+                            className="no-spin h-10 appearance-none"
+                            {...register(name as keyof FormInput, { required })}
+                          />
+                        )}
+
+                        {name === "expiry" && (
+                          <Input
+                            id={name}
+                            className="no-spin h-10 appearance-none"
+                            placeholder={placeholder}
+                            value={expiry}
+                            {...register(name as keyof FormInput, { required })}
+                            onChange={handleExpiryChange}
+                          />
+                        )}
+
+                        {name === "cvv" && (
+                          <Input
+                            id={name}
+                            className="no-spin h-10 appearance-none"
+                            placeholder={placeholder}
+                            maxLength={3}
+                            onInput={handleCVVInput}
+                            {...register(name as keyof FormInput, { required })}
+                          />
+                        )}
                         {errors[name as keyof FormInput] && (
                           <p className="text-sm font-normal leading-5 text-red-600">
                             {errors[name as keyof FormInput]?.message}
