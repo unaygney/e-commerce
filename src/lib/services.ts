@@ -78,5 +78,5 @@ export const getProvincesByCounty = async (country: string) => {
     (p: any) => p.country.toUpperCase() === country.toUpperCase(),
   );
 
-  return provinces?.cities || [];
+  return provinces?.cities || [`${country}`];
 };
