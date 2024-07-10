@@ -194,7 +194,7 @@ export default function CheckoutForm() {
                             </SelectTrigger>
                             <SelectContent>
                               {provinces?.map((city: any, i: number) => (
-                                <SelectItem key={i} value={city}>
+                                <SelectItem key={`${city}-${i}`} value={city}>
                                   {city}
                                 </SelectItem>
                               ))}
