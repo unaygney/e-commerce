@@ -145,7 +145,7 @@ export const FORM_INPUT: FormInput[] = [
         id: 2,
         label: "Expiry",
         name: "expiry",
-        type: "date",
+        type: "number",
         placeholder: "MM/YY",
         required: true,
         className: "w-full xl:w-[49%]",
