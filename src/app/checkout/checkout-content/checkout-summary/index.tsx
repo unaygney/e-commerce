@@ -48,7 +48,7 @@ export default async function CheckoutSummary({ basket }: { basket: any }) {
                     •
                   </span>
                   <span className="text-base font-medium capitalize leading-6 text-neutral-600">
-                    {unit.size}
+                    {unit.size === "null" ? "One size" : unit.size}
                   </span>
                 </div>
                 <span className="text-base font-medium capitalize leading-6 text-neutral-600">
@@ -59,9 +59,11 @@ export default async function CheckoutSummary({ basket }: { basket: any }) {
                 <span className="text-lg font-semibold leading-7 text-neutral-900">
                   ${unit.list_price?.toFixed(2) ?? "0.00"}
                 </span>
-                <span className="text-right text-lg font-normal leading-7 text-neutral-600 line-through">
-                  ${unit.sale_price?.toFixed(2) ?? "0.00"}
-                </span>
+                {unit.sale_price !== unit.list_price && (
+                  <span className="text-right text-lg font-normal leading-7 text-neutral-600 line-through">
+                    ${unit.sale_price?.toFixed(2) ?? "0.00"}
+                  </span>
+                )}
               </div>
             </div>
           ),
