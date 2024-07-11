@@ -5,9 +5,9 @@ import { Label } from "@/components/label";
 import { Input } from "@/components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { checkoutFormSchema } from "@/lib/validations";
-import { Check, CreditCard } from "lucide-react";
+import { Check } from "lucide-react";
 import { getAllCountries, getProvincesByCounty } from "@/lib/services";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { FormInput, FORM_INPUT } from "./constant";
 import { Amex, MasterCard, UnknownCard, Visa } from "@/components/icons";
+import { createCheckoutSession } from "../actions";
 
 export default function CheckoutForm() {
   const {
@@ -46,8 +47,29 @@ export default function CheckoutForm() {
     }
   }, [selectedCountry]);
 
-  const onSubmit: SubmitHandler<FormInput> = (data) => {
-    console.log(data);
+  const queryClient = useQueryClient();
+
+  const { data, isPending, mutate } = useMutation({
+    mutationKey: ["get-checkout-session"],
+    mutationFn: createCheckoutSession,
+    onSuccess: (data) => {
+      console.log("Success", data);
+    },
+    onError: (e) => {
+      console.log("başarısız", e);
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormData | FormInput> = (data) => {
+    console.log("form data => ", data);
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    console.log("new form data => ", formData);
+
+    mutate(formData);
   };
 
   const handleCVVInput = (e: React.FormEvent<HTMLInputElement>) => {
