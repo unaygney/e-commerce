@@ -19,6 +19,7 @@ import {
 import { FormInput, FORM_INPUT } from "./constant";
 import { Amex, MasterCard, UnknownCard, Visa } from "@/components/icons";
 import { createCheckoutSession } from "../actions";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutForm() {
   const {
@@ -30,6 +31,7 @@ export default function CheckoutForm() {
   } = useForm<FormInput>({
     resolver: zodResolver(checkoutFormSchema),
   });
+  const router = useRouter();
 
   const { data: countries } = useQuery({
     queryKey: ["countries"],
@@ -54,9 +56,13 @@ export default function CheckoutForm() {
     mutationFn: createCheckoutSession,
     onSuccess: (data) => {
       console.log("Success", data);
+
+      if (data.success) {
+        router.push(data.url!);
+      }
     },
     onError: (e) => {
-      console.log("başarısız", e);
+      console.log("failed", e);
     },
   });
 

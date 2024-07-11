@@ -126,7 +126,6 @@ export async function createCheckoutSession(formData: FormData) {
   return {
     success: true,
     message: "Order created successfully",
-    orderId: newOrder.id,
-    sessionId: session.id,
+    url: session.return_url,
   };
 }
