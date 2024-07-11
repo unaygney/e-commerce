@@ -7,7 +7,7 @@ import ReactQueryProvider from "@/components/Providers/ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { db } from "@/db";
 import { cookies } from "next/headers";
-
+import { Analytics } from "@vercel/analytics/react";
 const noto_sans = Noto_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -43,6 +43,7 @@ export default async function RootLayout({
           <Toaster />
           <Footer />
         </ReactQueryProvider>
+        <Analytics />
       </body>
     </html>
   );
