@@ -1,9 +1,8 @@
 "use server";
 import { cookies } from "next/headers";
 import { db } from "@/db";
-import { z } from "zod";
 import { checkoutFormSchema } from "@/lib/validations";
-import { light } from "@mui/material/styles/createPalette";
+import { stripe } from "@/lib/stripe";
 
 export async function createCheckoutSession(formData: FormData) {
   const cookiesStore = cookies();
@@ -70,7 +69,6 @@ export async function createCheckoutSession(formData: FormData) {
   } = formSchema.data;
 
   let price = cart.summary.total;
-  // Create a new order
 
   const newOrder = await db.order.create({
     data: {
@@ -103,14 +101,33 @@ export async function createCheckoutSession(formData: FormData) {
     },
   });
 
-  console.log(newOrder);
+  const lineItems = cart.items.map((item) => ({
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name: item.product.name,
+      },
+      unit_amount: item.unit.sale_price * 100,
+    },
+    quantity: item.quantity,
+  }));
+
+  const session = await stripe.checkout.sessions.create({
+    ui_mode: "embedded",
+    line_items: lineItems,
+    mode: "payment",
+    success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
+    metadata: {
+      order_id: newOrder.id,
+      cart_id: cart_id,
+    },
+  });
 
   return {
     success: true,
     message: "Order created successfully",
     orderId: newOrder.id,
+    sessionId: session.id,
   };
-
-  // Create a new order detail
-  // create a new checkoutsession
 }
