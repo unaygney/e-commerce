@@ -7,6 +7,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum OrderStatus {
+  fulfilled
+  shipped
+  awaiting_shipment
+}
+
 model Product {
   product_id  String     @id @default(cuid())
   name        String
@@ -44,6 +50,7 @@ model Cart {
   items     CartItem[]
   summary   Summary    @relation(fields: [summaryId], references: [id])
   summaryId Int        @unique
+  orders    Order[]
 }
 
 model Summary {
@@ -62,4 +69,45 @@ model subscription {
   created_at DateTime @default(now()) @db.Timestamp(6)
   updated_at DateTime @default(now()) @db.Timestamp(6)
   is_active  Boolean  @default(true)
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  amount Float
+  isPaid Boolean     @default(false)
+  status OrderStatus @default(awaiting_shipment)
+
+  cart   Cart   @relation(fields: [cartId], references: [cart_id])
+  cartId String
+
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId String?
+  billingAddress    BillingAddress?  @relation(fields: [billingAddressId], references: [id])
+  billingAddressId  String?
+
+  createdAt DateTime @default(now())
+  updated   DateTime @updatedAt
+}
+
+model ShippingAddress {
+  id      String  @id @default(cuid())
+  line1   String
+  line2   String?
+  city    String
+  state   String
+  zip     String
+  country String
+  orders  Order[]
+}
+
+model BillingAddress {
+  id      String  @id @default(cuid())
+  line1   String
+  line2   String?
+  city    String
+  state   String
+  zip     String
+  country String
+  orders  Order[]
 }
