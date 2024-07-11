@@ -116,7 +116,7 @@ export async function createCheckoutSession(formData: FormData) {
     ui_mode: "embedded",
     line_items: lineItems,
     mode: "payment",
-    return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+    return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success}`,
     metadata: {
       order_id: newOrder.id,
       cart_id: cart_id,
