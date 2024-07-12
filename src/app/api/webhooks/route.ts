@@ -60,9 +60,7 @@ export async function POST(req: NextRequest) {
       });
 
       const response = NextResponse.json({ success: true });
-
-      response.cookies.set("cart_id", "", { maxAge: -1 });
-
+      response.cookies.delete("cart_id");
       return response;
     }
   } catch (e) {
