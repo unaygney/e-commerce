@@ -20,8 +20,6 @@ export default async function SuccessPage({
 }) {
   const order_id = searchParams["order_id"] as string;
 
-  if (!order_id) notFound();
-
   const order: any = await db.order.findUnique({
     where: {
       id: order_id,

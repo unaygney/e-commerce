@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { db } from "@/db";
 import { checkoutFormSchema } from "@/lib/validations";
 import { stripe } from "@/lib/stripe";
+import { revalidatePath } from "next/cache";
 
 export async function createCheckoutSession(formData: FormData) {
   const cookiesStore = cookies();
@@ -122,6 +123,8 @@ export async function createCheckoutSession(formData: FormData) {
       cart_id: cart_id,
     },
   });
+
+  revalidatePath("/");
 
   return {
     success: true,

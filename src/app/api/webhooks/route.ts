@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { stripe } from "@/lib/stripe";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -58,6 +59,8 @@ export async function POST(req: NextRequest) {
           isPaid: true,
         },
       });
+
+      revalidatePath("/");
 
       const response = NextResponse.json({ success: true });
       response.cookies.delete("cart_id");
