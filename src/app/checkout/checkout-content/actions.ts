@@ -124,7 +124,8 @@ export async function createCheckoutSession(formData: FormData) {
     },
   });
 
-  revalidatePath("/");
+  // FINALY YOU CAN DELETE CART ID FROM COOKIES
+  cookiesStore.delete("cart_id");
 
   return {
     success: true,
