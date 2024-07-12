@@ -58,7 +58,11 @@ export default function SuccessContent({ order }: { order: any }) {
                 {cart.summary.discount_code}
               </span>
             </div>
-            <Badge variant="brand" size="medium">
+            <Badge
+              variant="brand"
+              size="medium"
+              className="inline-flex self-start"
+            >
               {cart.summary.discount_code}
             </Badge>
           </div>
@@ -132,7 +136,7 @@ function OrderCard({ product }: { product: any }) {
   const { unit, product: prod } = product;
 
   return (
-    <div className="flex gap-6 border-y border-dashed border-neutral-300 py-8">
+    <div className="flex gap-6 border-b border-dashed border-neutral-300 py-8">
       <div className="relative size-20 overflow-hidden rounded">
         <Image
           src={unit.image_url}
