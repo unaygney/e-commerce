@@ -259,12 +259,12 @@ export function Bill(props: React.SVGProps<SVGSVGElement>) {
 export function Visa(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
-      {...props}
       xmlns="http://www.w3.org/2000/svg"
       width="28"
       height="24"
       viewBox="0 0 58 40"
       fill="none"
+      {...props}
     >
       <rect x="0.5" y="0.5" width="57" height="39" rx="5.5" fill="white" />
       <rect x="0.5" y="0.5" width="57" height="39" rx="5.5" stroke="#E5E5E5" />
@@ -343,6 +343,24 @@ export function UnknownCard(props: React.SVGProps<SVGSVGElement>) {
       <path
         d="M3.00488 3H21.0049C21.5572 3 22.0049 3.44772 22.0049 4V20C22.0049 20.5523 21.5572 21 21.0049 21H3.00488C2.4526 21 2.00488 20.5523 2.00488 20V4C2.00488 3.44772 2.4526 3 3.00488 3ZM20.0049 11H4.00488V19H20.0049V11ZM20.0049 9V5H4.00488V9H20.0049ZM14.0049 15H18.0049V17H14.0049V15Z"
         fill="#6366F1"
+      />
+    </svg>
+  );
+}
+
+export function FileCopy(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+    >
+      <path
+        d="M5.83317 5.00008V2.50008C5.83317 2.03985 6.20627 1.66675 6.6665 1.66675H16.6665C17.1267 1.66675 17.4998 2.03985 17.4998 2.50008V14.1667C17.4998 14.627 17.1267 15.0001 16.6665 15.0001H14.1665V17.4993C14.1665 17.96 13.7916 18.3334 13.3275 18.3334H3.33888C2.87549 18.3334 2.5 17.9629 2.5 17.4993L2.50217 5.83414C2.50225 5.37351 2.8772 5.00008 3.34118 5.00008H5.83317ZM4.16868 6.66675L4.16682 16.6667H12.4998V6.66675H4.16868ZM7.49983 5.00008H14.1665V13.3334H15.8332V3.33341H7.49983V5.00008ZM5.83333 9.16675H10.8333V10.8334H5.83333V9.16675ZM5.83333 12.5001H10.8333V14.1667H5.83333V12.5001Z"
+        fill="#4338CA"
       />
     </svg>
   );
