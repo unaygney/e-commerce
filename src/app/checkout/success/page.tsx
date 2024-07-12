@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "StyleNest is a fashion e-commerce website.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function SuccessPage({
   searchParams,
 }: {
