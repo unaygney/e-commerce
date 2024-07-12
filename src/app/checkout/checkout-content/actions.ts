@@ -117,7 +117,6 @@ export async function createCheckoutSession(formData: FormData) {
     success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/checkout/success?order_id=${newOrder.id}`,
     cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/checkout/cancel`,
     mode: "payment",
-    return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success}`,
     metadata: {
       order_id: newOrder.id,
       cart_id: cart_id,
