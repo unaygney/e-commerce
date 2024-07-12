@@ -72,8 +72,7 @@ model subscription {
 }
 
 model Order {
-  id String @id @default(cuid())
-
+  id     String      @id @default(cuid())
   amount Float
   isPaid Boolean     @default(false)
   status OrderStatus @default(awaiting_shipment)
@@ -85,9 +84,21 @@ model Order {
   shippingAddressId String?
   billingAddress    BillingAddress?  @relation(fields: [billingAddressId], references: [id])
   billingAddressId  String?
+  paymentMethod     CardInfo?        @relation
+  paymentMethodId   String?          @unique
 
   createdAt DateTime @default(now())
-  updated   DateTime @updatedAt
+  updatedAt DateTime @updatedAt
+}
+
+model CardInfo {
+  id        String  @id @default(cuid())
+  type      String
+  last_4    String
+  exp_month Int
+  exp_year  Int
+  order     Order?  @relation(fields: [orderId], references: [id])
+  orderId   String? @unique
 }
 
 model ShippingAddress {
