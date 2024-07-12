@@ -1,6 +1,5 @@
 import { db } from "@/db";
 import { stripe } from "@/lib/stripe";
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -60,7 +59,11 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      return NextResponse.json({ success: true });
+      const response = NextResponse.json({ success: true });
+
+      response.cookies.set("cart_id", "", { maxAge: -1 });
+
+      return response;
     }
   } catch (e) {
     return NextResponse.json(
