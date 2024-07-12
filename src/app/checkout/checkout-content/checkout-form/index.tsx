@@ -20,6 +20,7 @@ import { FormInput, FORM_INPUT } from "./constant";
 import { Amex, MasterCard, UnknownCard, Visa } from "@/components/icons";
 import { createCheckoutSession } from "../actions";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function CheckoutForm() {
   const {
@@ -32,6 +33,7 @@ export default function CheckoutForm() {
     resolver: zodResolver(checkoutFormSchema),
   });
   const router = useRouter();
+  const { toast } = useToast();
 
   const { data: countries } = useQuery({
     queryKey: ["countries"],
@@ -54,15 +56,19 @@ export default function CheckoutForm() {
   const { data, isPending, mutate } = useMutation({
     mutationKey: ["get-checkout-session"],
     mutationFn: createCheckoutSession,
-    onSuccess: (data) => {
+    onSuccess: ({ url }) => {
       console.log("Success", data);
 
-      if (data.success) {
-        router.push(data.url!);
-      }
+      if (url) {
+        router.push(url);
+      } else throw new Error("Unable to retrieve payment URL.");
     },
     onError: (e) => {
-      console.log("failed", e);
+      toast({
+        title: "Something went wrong",
+        description: "There was an error on our end. Please try again.",
+        variant: "destructive",
+      });
     },
   });
 
