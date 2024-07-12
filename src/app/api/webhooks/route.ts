@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
         where: { cartId: cart_id, id: order_id },
         data: {
           status: "fulfilled",
+          isPaid: true,
         },
       });
 
