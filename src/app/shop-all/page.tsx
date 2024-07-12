@@ -1,7 +1,13 @@
 import Container from "@/components/container";
 import ProductListing from "@/components/product-listing";
 import { GetAllProductsParams } from "@/lib/definitions";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "StyleNest | Shop All",
+  description: "StyleNest is a fashion e-commerce website.",
+};
 
 export default async function ShopAll({ searchParams }: { searchParams: any }) {
   const products = await getAllProducts(searchParams);

@@ -4,6 +4,13 @@ import SuccessImageSection from "./success-image-section";
 import SuccessContent from "./success-content";
 import { db } from "@/db";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "StyleNest | Order Success",
+  description: "StyleNest is a fashion e-commerce website.",
+};
+
 export default async function SuccessPage({
   searchParams,
 }: {

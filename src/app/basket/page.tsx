@@ -4,6 +4,12 @@ import ShoppingCard from "@/components/shopping-card";
 import { getBasketData } from "@/lib/services";
 import { db } from "@/db";
 import { cookies } from "next/headers";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "StyleNest | Basket",
+  description: "StyleNest is a fashion e-commerce website.",
+};
 
 export default async function Basket() {
   const cookieStore = cookies();

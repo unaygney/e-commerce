@@ -6,6 +6,12 @@ import Link from "next/link";
 import CollectionsGridSection from "@/components/collections-grid-section";
 import Features from "@/components/features";
 import { buttonVariants } from "@/components/button";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "StyleNest | Home",
+  description: "StyleNest is a fashion e-commerce website.",
+};
 
 export default async function Home() {
   const products = await getProducs();

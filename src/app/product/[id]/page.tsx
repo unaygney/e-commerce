@@ -5,6 +5,30 @@ import ProductDetail from "@/components/product-detail";
 import ProductSpecifications from "@/components/product-specifications";
 import ProductsGrid from "@/components/products-grid";
 import { notFound } from "next/navigation";
+import type { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const id = params.id;
+
+  const product = await getProductById(id);
+
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: `${product?.name}'s detail page` || "StyleNest Product Page",
+    openGraph: {
+      images: [product?.collection.image_url || "", ...previousImages],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const products = await fetch(

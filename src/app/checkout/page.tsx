@@ -5,6 +5,12 @@ import { ChevronLeft } from "lucide-react";
 import { buttonVariants } from "@/components/button";
 import { cn } from "@/lib/utils";
 import CheckoutContent from "./checkout-content";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "StyleNest | Checkout",
+  description: "StyleNest is a fashion e-commerce website.",
+};
 
 export default function CheckoutPage() {
   return (
