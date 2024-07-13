@@ -172,7 +172,7 @@ function Reviews({
 }) {
   return (
     <div className="flex h-full flex-1 flex-col gap-1 md:gap-4">
-      <div className="flex h-[168px] flex-col gap-6 overflow-scroll md:h-[320px] xl:h-[420px]">
+      <div className="flex h-[320px] flex-col gap-6 overflow-scroll md:h-[320px] xl:h-[420px]">
         {data.map((review: any, index: number) => (
           <div className="flex h-full max-h-[112px] flex-col gap-4" key={index}>
             <div className="flex gap-4">
